@@ -1,0 +1,11 @@
+--- a/app/tests/test_desktop_platform.py
++++ b/app/tests/test_desktop_platform.py
+@@ -18,7 +18,7 @@
+             self.assertEqual(default_data_path(),Path(__file__).resolve().parents[1]/'data/pet.json')
+         exe=Path(tempfile.gettempdir())/'pet-release'/'小汉.exe'
+         with patch('sys.platform','win32'),patch.object(sys,'frozen',True,create=True),patch('sys.executable',str(exe)):
+-            self.assertEqual(default_data_path(),exe.parent/'data/pet.json')
++            self.assertEqual(default_data_path(),exe.resolve().parent/'data/pet.json')
+ 
+     def test_counter_baseline_reset_and_wrap(self):
+         self.assertEqual(counter_delta(400,400),0)
