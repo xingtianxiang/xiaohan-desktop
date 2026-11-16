@@ -35,7 +35,7 @@
  
  SCENE_SIZE = (420, 290)
  
-@@ -16,21 +16,34 @@
+@@ -16,21 +16,65 @@
              for name in ('park', 'snow')
          }
  
@@ -43,6 +43,12 @@
 +    def compose_fetch(self,scene,outfit,stage,body_size,sample,origin_name):
          size=round(body_size*sample.scale)
 -        def pose_frame(pose,flip):
++        if (0 < sample.mix < 1 and sample.previous_pose not in ('walk','origin_walk')
++                and sample.pose not in ('walk','settle')):
++            names = [fetch_asset(outfit,stage,p) for p in (sample.previous_pose,sample.pose)]
++            sprites = [self.sprite(scene,n,size,f) for n,f in zip(names,(sample.previous_flip,sample.flip))]
++            pet = self.carry_transition(sprites,sample,size)
++            return self.compose(scene,names[1],size,sample.x,sample.ground,sample.flip,lift=sample.lift,pet=pet)
 +        def pose_frame(pose,flip,offset):
              if pose in ('walk','origin_walk','settle'):
 -                name=origin_name if pose in ('origin_walk','settle') else walk_name
@@ -74,13 +80,38 @@
 -    @lru_cache(maxsize=256)
 -    def sprite(self, scene, name, size, flip):
 -        image = self.images[name].copy()
++    @staticmethod
++    def carry_transition(sprites,sample,size):
++        # Fit each drawing into the same four patches around the mouth.
++        # A straight crossfade leaves two muzzles as the head turns in depth.
++        grids = []
++        for sprite,offset in zip(sprites,(sample.previous_offset,sample.current_offset)):
++            left,top,right,bottom = sprite.getchannel('A').point(lambda a: 255 if a>=32 else 0).getbbox()
++            mouth_x = size/2 + sample.ball_x - sample.x - offset[0]
++            mouth_y = bottom + sample.ball_y - sample.ground + sample.lift - offset[1]
++            xs = (left,max(left+1,min(right-1,mouth_x)),right)
++            ys = (top,max(top+1,min(bottom-1,mouth_y)),bottom)
++            grids.append((xs,ys))
++        target = [[round(a+(b-a)*sample.mix) for a,b in zip(axis_a,axis_b)]
++                  for axis_a,axis_b in zip(*grids)]
++        warped = []
++        for sprite,(xs,ys) in zip(sprites,grids):
++            mesh = []
++            for j in range(2):
++                for i in range(2):
++                    box = (target[0][i],target[1][j],target[0][i+1],target[1][j+1])
++                    quad = (xs[i],ys[j],xs[i],ys[j+1],xs[i+1],ys[j+1],xs[i+1],ys[j])
++                    mesh.append((box,quad))
++            warped.append(sprite.convert('RGBa').transform(sprite.size,Image.Transform.MESH,mesh,Image.Resampling.BILINEAR))
++        return Image.blend(*warped,sample.mix).convert('RGBA')
++
 +    @lru_cache(maxsize=128)
 +    def lit_artwork(self, scene, name):
 +        image = self.images[name]
          # Generated atlases contain nearly transparent background noise. Remove
          # that floor while retaining intermediate alpha for fur antialiasing.
          alpha = image.getchannel('A').point(lambda a: round(max(0, a - 72) * 255 / 183))
-@@ -38,6 +51,11 @@
+@@ -38,15 +82,21 @@
          rgb = ImageEnhance.Contrast(image.convert('RGB')).enhance(.96)
          rgb = Image.blend(rgb, Image.new('RGB', rgb.size, tint), .055 if scene == 'park' else .085)
          image = rgb.convert('RGBA'); image.putalpha(alpha)
@@ -92,7 +123,19 @@
          image = image.resize((size, size), Image.Resampling.LANCZOS)
          return ImageOps.mirror(image) if flip else image
  
-@@ -54,19 +72,23 @@
+-    def compose(self, scene, name, size, x, ground, flip=False, flame=None, fetch=None,lift=0.):
++    def compose(self, scene, name, size, x, ground, flip=False, flame=None, fetch=None,lift=0.,pet=None):
+         background = self.backgrounds[scene]
+         frame = background.copy()
+         if fetch and not fetch.carrying:
+             paint_ball(frame, fetch)
+-        pet = self.sprite(scene, name, size, flip)
++        if pet is None:
++            pet = self.sprite(scene, name, size, flip)
+         alpha = pet.getchannel('A')
+         box = alpha.point(lambda a: 255 if a >= 32 else 0).getbbox()
+         if box is None:
+@@ -54,19 +104,23 @@
          left, top = round(x - size / 2), round(ground - box[3]-lift)
          body_width = box[2] - box[0]
          center = left + (box[0] + box[2]) / 2
@@ -207,7 +250,7 @@
          current=ball_at(pose,previous_flip if pose=='settle' else flip)
          old=(target_ball,target_ground-radius,radius) if previous=='walk' else ball_at(previous,previous_flip)
          bx,by,radius=(a+(b-a)*mix for a,b in zip(old,current))
-+        if previous.startswith('run') and pose.startswith('run'):
++        if previous in anchors and pose in anchors:
 +            # These drawings already contain the ball. Register both mouths to
 +            # one moving point so blending legs never creates a second ball.
 +            previous_offset = (bx-old[0], by-old[1])
