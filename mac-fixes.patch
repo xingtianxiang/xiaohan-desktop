@@ -1,3 +1,281 @@
+--- a/app/app.py
++++ b/app/app.py
+@@ -413,9 +413,8 @@
+         if self.outdoor:
+             if fetch is None: y=246
+             if fetch is not None:
+-                walk_name=motion_frame(self.state.outfit,self.state.stage,'walk',self.walk_clock+elapsed*1.4)
+                 origin_name=motion_frame(self.state.outfit,self.state.stage,'walk',self.walk_clock)
+-                frame=self.outdoor_renderer.compose_fetch(self.state.scene,self.state.outfit,self.state.stage,body_size,fetch,walk_name,origin_name)
++                frame=self.outdoor_renderer.compose_fetch(self.state.scene,self.state.outfit,self.state.stage,body_size,fetch,origin_name)
+             else:frame=self.outdoor_renderer.compose(self.state.scene,name,size,x,y,flip,fire)
+             self.scene_photo=ImageTk.PhotoImage(frame,master=self.root)
+             c.create_image(0,0,anchor='nw',image=self.scene_photo,tags='outdoor_scene')
+@@ -491,7 +490,9 @@
+         if self.more and now-self.last_panel_refresh>.25:
+             self.more.refresh();self.last_panel_refresh=now
+         if now-self.last_save>30: self.save(); self.last_save=now
+-        self.root.after(33 if self.flame.level or self.action=='ball' or self.charge.started is not None else 90,self.tick)
++        interval = 33 if self.flame.level or self.action=='ball' or self.charge.started is not None else 90
++        remaining = interval - round((time.monotonic()-now)*1000)
++        self.root.after(max(1,remaining),self.tick)
+ 
+     def close(self):
+         if not self.save(): return
+--- a/app/outdoor.py
++++ b/app/outdoor.py
+@@ -2,8 +2,8 @@
+ from functools import lru_cache
+ from dataclasses import replace
+ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageOps
+-from fetch_game import paint_ball
+-from animation import fetch_asset
++from fetch_game import paint_ball, ramp
++from animation import fetch_asset, frame_names
+ 
+ SCENE_SIZE = (420, 290)
+ 
+@@ -16,21 +16,34 @@
+             for name in ('park', 'snow')
+         }
+ 
+-    def compose_fetch(self,scene,outfit,stage,body_size,sample,walk_name,origin_name):
++    def compose_fetch(self,scene,outfit,stage,body_size,sample,origin_name):
+         size=round(body_size*sample.scale)
+-        def pose_frame(pose,flip):
++        def pose_frame(pose,flip,offset):
+             if pose in ('walk','origin_walk','settle'):
+-                name=origin_name if pose in ('origin_walk','settle') else walk_name
+-                return self.compose(scene,name,size,sample.x,sample.ground,flip,fetch=replace(sample,carrying=False))
+-            return self.compose(scene,fetch_asset(outfit,stage,pose),size,sample.x,sample.ground,flip,lift=sample.lift)
+-        current=pose_frame(sample.pose,sample.flip)
++                ball = replace(sample,carrying=False)
++                def walking(name):
++                    return self.compose(scene,name,size,sample.x,sample.ground,flip,fetch=ball)
++                if pose != 'walk':
++                    return walking(origin_name)
++                cycle = frame_names(outfit,stage,'walk')
++                phase = cycle.index(origin_name) + sample.chase_cycles * len(cycle)
++                index = int(phase)
++                blend = ramp(phase-index,0.,1.)
++                start = walking(cycle[index % len(cycle)])
++                if blend == 0:
++                    return start
++                return Image.blend(start,walking(cycle[(index+1) % len(cycle)]),blend)
++            return self.compose(scene,fetch_asset(outfit,stage,pose),size,sample.x+offset[0],sample.ground,flip,lift=sample.lift-offset[1])
++        if sample.mix == 0:
++            return pose_frame(sample.previous_pose,sample.previous_flip,sample.previous_offset)
++        current=pose_frame(sample.pose,sample.flip,sample.current_offset)
+         if sample.mix<1:
+-            return Image.blend(pose_frame(sample.previous_pose,sample.previous_flip),current,sample.mix)
++            return Image.blend(pose_frame(sample.previous_pose,sample.previous_flip,sample.previous_offset),current,sample.mix)
+         return current
+ 
+-    @lru_cache(maxsize=256)
+-    def sprite(self, scene, name, size, flip):
+-        image = self.images[name].copy()
++    @lru_cache(maxsize=128)
++    def lit_artwork(self, scene, name):
++        image = self.images[name]
+         # Generated atlases contain nearly transparent background noise. Remove
+         # that floor while retaining intermediate alpha for fur antialiasing.
+         alpha = image.getchannel('A').point(lambda a: round(max(0, a - 72) * 255 / 183))
+@@ -38,6 +51,11 @@
+         rgb = ImageEnhance.Contrast(image.convert('RGB')).enhance(.96)
+         rgb = Image.blend(rgb, Image.new('RGB', rgb.size, tint), .055 if scene == 'park' else .085)
+         image = rgb.convert('RGBA'); image.putalpha(alpha)
++        return image
++
++    @lru_cache(maxsize=256)
++    def sprite(self, scene, name, size, flip):
++        image = self.lit_artwork(scene,name)
+         image = image.resize((size, size), Image.Resampling.LANCZOS)
+         return ImageOps.mirror(image) if flip else image
+ 
+@@ -54,19 +72,23 @@
+         left, top = round(x - size / 2), round(ground - box[3]-lift)
+         body_width = box[2] - box[0]
+         center = left + (box[0] + box[2]) / 2
+-        shadow_mask = Image.new('L', SCENE_SIZE)
++        radius = body_width * .40
++        blur = max(2,size*.025)
++        pad = round(4*blur)+1
++        half_width = round(radius)+pad
++        half_height = round(size*.055)+pad
++        shadow_mask = Image.new('L', (2*half_width+1,2*half_height+1))
+         draw = ImageDraw.Draw(shadow_mask)
+-        radius = body_width * .40
+-        draw.ellipse((center-radius, ground-size*.055, center+radius, ground+size*.04), fill=65)
+-        shadow_mask = shadow_mask.filter(ImageFilter.GaussianBlur(max(2, size*.025)))
+-        shadow = Image.new('RGBA', SCENE_SIZE, (45, 64, 37) if scene == 'park' else (65, 91, 126))
+-        shadow.putalpha(shadow_mask); frame.alpha_composite(shadow)
++        draw.ellipse((half_width-radius, half_height-size*.055, half_width+radius, half_height+size*.04), fill=65)
++        shadow_mask = shadow_mask.filter(ImageFilter.GaussianBlur(blur))
++        shadow = Image.new('RGBA', shadow_mask.size, (45, 64, 37) if scene == 'park' else (65, 91, 126))
++        shadow.putalpha(shadow_mask); frame.alpha_composite(shadow,(round(center)-half_width,round(ground)-half_height))
+ 
+         # Project only the bottom of the silhouette into a small contact shadow,
+         # so planted paws have local weight instead of a detached oval below them.
+         feet = alpha.crop((box[0], max(box[1], box[3]-round(size*.12)), box[2], box[3]))
+         feet = feet.resize((body_width, max(3, round(size*.025))), Image.Resampling.LANCZOS)
+-        feet = feet.point(lambda a: round(a*.27/(1+lift))).filter(ImageFilter.GaussianBlur(1))
++        feet = feet.point(lambda a: round(a*.27/(1+max(0.,lift)))).filter(ImageFilter.GaussianBlur(1))
+         contact = Image.new('RGBA', feet.size, (35, 51, 30) if scene == 'park' else (60, 83, 114))
+         contact.putalpha(feet)
+         frame.alpha_composite(contact, (left+box[0], round(ground-feet.height/2)))
+--- a/app/fetch_game.py
++++ b/app/fetch_game.py
+@@ -73,6 +73,10 @@
+     previous_flip: bool
+     lift: float
+     stride_phase: float
++    chase_cycles: float
++    previous_offset: tuple
++    current_offset: tuple
++    ball_opacity: float
+ 
+ 
+ def fetch_frame(progress,power,body_size,anchors,origin=(118.,246.,False)):
+@@ -96,7 +100,7 @@
+     size=body_size*scale
+     x=ox+(target_pet-ox)*outbound
+     ground=oground+(target_body_ground-oground)*outbound
+-    bx,by,ball_ground,old_radius=throw_point((p-.08)/.22,power)
++    bx,by,ball_ground,old_radius=throw_point(p/.30,power)
+     radius=radius_base*(old_radius/11)
+     by+=old_radius-radius
+     if .30 <= p < .42:
+@@ -105,34 +109,41 @@
+     # One four-pose trot cycle covers about half a body length. Integrating
+     # perspective scale ties foot cadence to travel, including braking.
+     cycles=distance/body_size/.50*(-math.log(far_scale)/(1-far_scale))
++    chase_cycles = -math.log1p(-(1-far_scale)*outbound) * distance / (body_size*.50*(1-far_scale))
+     stride_total=max(1,round(cycles))*4+2
+     stride_phase=stride_total*math.log((far_scale+(1-far_scale)*inbound)/far_scale)/(-math.log(far_scale))
+     step=math.floor(stride_phase)
+     pose='walk';previous='origin_walk';mix=ramp(p,0,.08);flip=chase_flip;previous_flip=oflip
+     lift=0.
++    previous_offset = current_offset = (0., 0.)
+     if p>=.44:
++        # Follow the weight transfer around the planted paws before pushing off.
++        pivot = ramp(p, .44, .65)
++        arc = math.sin(math.pi * pivot) ** 2
++        pivot_x = direction * size * .09 * arc
++        pivot_ground = size * .035 * arc
+         if p<.50:
+             pose,previous,flip,previous_flip='pickup','walk',chase_flip,chase_flip
+-            mix=ramp(p,.44,.46)
++            mix=ramp(p,.44,.50)
+         elif p<.55:
+             pose,previous,flip,previous_flip='turnquarter','pickup',chase_flip,chase_flip
+-            mix=ramp(p,.50,.53)
++            mix=ramp(p,.50,.55)
+         elif p<.59:
+             pose,previous,flip,previous_flip='turnfront','turnquarter',chase_flip,chase_flip
+-            mix=ramp(p,.55,.57)
++            mix=ramp(p,.55,.59)
+         elif p<.63:
+             pose,previous,flip,previous_flip='turnquarter','turnfront',returning_flip,chase_flip
+-            mix=ramp(p,.59,.61)
++            mix=ramp(p,.59,.63)
+         elif p<.90:
+             pose='run'+str(step%4)
+-            previous='turnquarter'
++            previous='turnquarter' if step == 0 else 'run'+str((step-1)%4)
+             flip=previous_flip=returning_flip
+-            mix=ramp(p,.63,.65)
++            mix=ramp(stride_phase-step,0.,1.)
+         else:
+             # Finish the current stride before lowering the ball, without a
+             # sudden change back to the other foot at the arrival boundary.
+             pose='drop';previous='run1'
+-            flip=previous_flip=returning_flip;mix=ramp(p,.90,.94)
++            flip=previous_flip=returning_flip;mix=ramp(p,.90,.965)
+             if p>=.97:
+                 pose,previous,flip,previous_flip='settle','drop',oflip,returning_flip
+                 mix=ramp(p,.97,1.)
+@@ -141,6 +152,8 @@
+             x=target_pet+(ox-target_pet)*inbound+(-1 if returning_flip else 1)*8*bend
+             ground=target_body_ground+(oground-target_body_ground)*inbound+4*bend
+             lift=size*.012*math.sin(stride_phase*math.pi/2)**2*ramp(inbound,0,.1)*(1-ramp(inbound,.85,1))
++        x += pivot_x
++        ground += pivot_ground
+ 
+         def ball_at(key,mirrored):
+             anchor=anchors['drop' if key=='settle' else key]
+@@ -149,22 +162,34 @@
+         current=ball_at(pose,previous_flip if pose=='settle' else flip)
+         old=(target_ball,target_ground-radius,radius) if previous=='walk' else ball_at(previous,previous_flip)
+         bx,by,radius=(a+(b-a)*mix for a,b in zip(old,current))
++        if previous.startswith('run') and pose.startswith('run'):
++            # These drawings already contain the ball. Register both mouths to
++            # one moving point so blending legs never creates a second ball.
++            previous_offset = (bx-old[0], by-old[1])
++            current_offset = (bx-current[0], by-current[1])
+         ball_ground=ground
+     carrying=pose not in ('walk','settle')
+     message=('看球！我来啦' if p<.44 else '叼起来啦' if p<.55 else '转个身，回来啦' if p<.63 else '给你带回来啦～' if p<.90 else '放这里，再扔一球吧！')
+-    return FetchFrame(x,ground,scale,flip,bx,by,ball_ground,radius,carrying,message,pose,previous,mix,chase_flip,returning_flip,oflip,previous_flip,lift,stride_phase)
++    return FetchFrame(x,ground,scale,flip,bx,by,ball_ground,radius,carrying,message,pose,previous,mix,chase_flip,returning_flip,oflip,previous_flip,lift,stride_phase,chase_cycles,previous_offset,current_offset,1.-ramp(p,.985,1.))
+ 
+ 
+ def paint_ball(frame, sample, shadow=True):
+     """Render at 3x for a soft edged ball with a grounded, height-aware shadow."""
+-    layer = Image.new('RGBA', (frame.width*3, frame.height*3))
++    # Supersample only the ball and its shadow, including the blur fringe.
++    height = max(0, sample.ball_ground-sample.ball_y)
++    reach = sample.radius*(1+height/150) + 6
++    left = math.floor(sample.ball_x-reach)
++    top = math.floor(sample.ball_y-sample.radius-6)
++    width = math.ceil(sample.ball_x+reach)-left
++    bottom = math.ceil(max(sample.ball_y+sample.radius, sample.ball_ground+sample.radius*.28)+6)
++    tile_size = (width, bottom-top)
++    layer = Image.new('RGBA', (width*3, (bottom-top)*3))
+     draw = ImageDraw.Draw(layer)
+-    x,y,r = sample.ball_x*3,sample.ball_y*3,sample.radius*3
++    x,y,r = (sample.ball_x-left)*3,(sample.ball_y-top)*3,sample.radius*3
+     if shadow:
+-        height = max(0, sample.ball_ground-sample.ball_y)
+         shade = Image.new('RGBA', layer.size)
+         d = ImageDraw.Draw(shade)
+-        sy = sample.ball_ground*3
++        sy = (sample.ball_ground-top)*3
+         spread = r*(1+height/150)
+         d.ellipse((x-spread,sy-r*.28,x+spread,sy+r*.28), fill=(52,65,38,round(70/(1+height/40))))
+         layer.alpha_composite(shade.filter(ImageFilter.GaussianBlur(3)))
+@@ -172,4 +197,7 @@
+     draw.ellipse((x-r,y-r,x+r,y+r),fill='#e6a15b',outline='#a66d40',width=3)
+     draw.arc((x-r*.65,y-r,x+r*.4,y+r),70,280,fill='#fff2c4',width=max(2,round(r*.18)))
+     draw.ellipse((x-r*.45,y-r*.6,x-r*.05,y-r*.2),fill='#ffe1a1')
+-    frame.alpha_composite(layer.resize(frame.size,Image.Resampling.LANCZOS))
++    tile = layer.resize(tile_size,Image.Resampling.LANCZOS)
++    if sample.ball_opacity < 1:
++        tile.putalpha(tile.getchannel('A').point(lambda alpha: round(alpha*sample.ball_opacity)))
++    frame.alpha_composite(tile, (left, top))
+--- a/app/tests/test_fetch_break.py
++++ b/app/tests/test_fetch_break.py
+@@ -96,6 +96,21 @@
+         charge.begin(12);charge.cancel()
+         self.assertIsNone(charge.release(14))
+ 
++    def test_carried_ball_follows_one_point_between_running_drawings(self):
++        for outfit in ('blue','red','yellow'):
++            for stage,size in enumerate((122,153,174)):
++                anchors = self.anchors(stage,outfit)
++                for origin in (walk_position(0),walk_position(7)):
++                    for i in range(640,900):
++                        frame = fetch_frame(i/1000,.35,size,anchors,origin)
++                        if not frame.previous_pose.startswith('run'):
++                            continue
++                        for pose,offset in ((frame.pose,frame.current_offset),(frame.previous_pose,frame.previous_offset)):
++                            dx,dy = anchors[pose]['ball']
++                            sign = -1 if frame.flip else 1
++                            self.assertAlmostEqual(frame.x+dx*size*frame.scale*sign+offset[0],frame.ball_x)
++                            self.assertAlmostEqual(frame.ground-frame.lift-dy*size*frame.scale+offset[1],frame.ball_y)
++
+     def test_long_hold_caps_without_auto_throw(self):
+         charge=ThrowCharge();charge.begin(0)
+         self.assertEqual(charge.power(100),1.)
 --- a/app/tests/test_desktop_platform.py
 +++ b/app/tests/test_desktop_platform.py
 @@ -18,7 +18,7 @@
