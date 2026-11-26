@@ -57,6 +57,16 @@ class CareTests(unittest.TestCase):
             data['update_checks']='yes';path.write_text(json.dumps(data),encoding='utf-8')
             with self.assertRaises(ValueError):PetState.load(path)
 
+    def test_mouse_follow_defaults_on_for_old_saves(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'pet.json';state=PetState();state.mouse_follow=False;state.save(path)
+            self.assertFalse(PetState.load(path).mouse_follow)
+            data=json.loads(path.read_text(encoding='utf-8'));del data['mouse_follow']
+            path.write_text(json.dumps(data),encoding='utf-8')
+            self.assertTrue(PetState.load(path).mouse_follow)
+            data['mouse_follow']=1;path.write_text(json.dumps(data),encoding='utf-8')
+            with self.assertRaises(ValueError):PetState.load(path)
+
     def test_toilet_time_boundaries_and_completion(self):
         state=PetState()
         self.assertTrue(state.check('toilet',100))

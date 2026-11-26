@@ -24,9 +24,11 @@ from tug_game import TugRound
 from tug_view import POSE_STEPS, TUG_SIZE, TUG_EXIT, TUG_RETRY, draw_tug, toy_tip, tug_pose
 from desktop_platform import IS_MAC, UI_FONT, TRANSPARENT, default_data_path, screen_bounds, MacInstanceLock
 from farewell import FarewellAnimation
-from dance import DanceRoutine
+from dance import STOP_BUTTON, STAGE_SIZE, DanceVideo
 import updater
 from version import VERSION
+from mouse_play import (ART, HEADS, PET_HOLD, PET_RELEASE, CircleGesture, Facing, HeadRig, PetDetector, Petting,
+                        body_middle, head_point, heart_positions, pose_frame)
 
 BASE=Path(__file__).resolve().parent
 KEY=TRANSPARENT
@@ -51,6 +53,8 @@ class DesktopPet:
                      if not p.stem.endswith('_gait')}
         for name in required_assets(OUTFITS):
             if name not in self.images: raise RuntimeError('缺少素材：'+name)
+        for name in ('dance_stage.webp','dance_stage.wav'):
+            if not (BASE/'assets'/name).is_file(): raise RuntimeError('缺少素材：'+name)
         self.fetch_anchors=json.loads((BASE/'assets/fetch-anchors.json').read_text(encoding='utf-8'))
         for outfit in OUTFITS:
             for stage in range(3):
@@ -61,7 +65,8 @@ class DesktopPet:
         self.work_break=WorkBreak(); self.fetch_power=.55; self.fetch_count=0
         self.fetch_mode=False; self.fetch_from_outdoor=False; self.charge=ThrowCharge()
         self.tug=None; self.tug_frames={}
-        self.dance_routines={}
+        self.dance=DanceVideo(BASE/'assets/dance_stage.webp',BASE/'assets/dance_stage.wav',keyed=os.name=='nt')
+        self.stage_return=None
         self.tug_space_down=False; self.tug_key_reset=None
         self.tug_origin=None
         self.walk_clock=0.;self.walk_resume=None;self.fetch_origin=walk_position(0.)
@@ -90,6 +95,11 @@ class DesktopPet:
                                      highlightthickness=1,highlightbackground='#e3eee3',highlightcolor=TEAL,
                                      padx=14,pady=4,cursor='hand2')
         self.desktop.bind('<Enter>',lambda e:self.show_toolbar()); self.desktop.bind('<Leave>',lambda e:self.defer_hide())
+        # Tk reports the cursor position on request; no system-wide mouse hook is installed.
+        self.stroke=PetDetector(); self.facing=Facing(); self.petting=Petting(); self.circle=CircleGesture()
+        self.pointer=root.winfo_pointerxy
+        self.rigs={}; self.pose_key=self.pose_photo=None
+        self.desktop.bind('<Motion>',self.pointer_motion)
         self.desktop.bind('<ButtonPress-1>',self.press); self.desktop.bind('<B1-Motion>',self.move)
         self.desktop.bind('<ButtonRelease-1>',self.release); self.desktop.bind('<Button-3>',self.popup)
         self.desktop.bind('<KeyPress-space>',self.tug_key_down)
@@ -145,7 +155,8 @@ class DesktopPet:
         for key,(left,top,right,bottom) in self.scene_controls.items():
             if left<=e.x<=right and top<=e.y<=bottom:
                 self.pressed_control=key;self.drag=None;return
-        if self.tug is not None:
+        if self.tug is not None or self.action=='dance':
+            # Focus lets Esc reach the window; neither scene can be dragged.
             self.desktop.focus_force()
             return
         if self.fetch_mode and 37<=e.y<self.height-26:
@@ -188,7 +199,8 @@ class DesktopPet:
 
     def show_toolbar(self):
         self.cancel_hide()
-        if self.hidden or self.paused or self.more or self.outdoor or self.trip_picker or self.tug is not None: return
+        if (self.hidden or self.paused or self.more or self.outdoor or self.trip_picker or self.tug is not None
+                or self.action=='dance'): return
         if self.toolbar and self.toolbar.winfo_exists(): return
         self.toolbar=self.floating(TOOLBAR_WIDTH,TOOLBAR_HEIGHT); self.buttons={}
         actions=[('feed','喂食'),('water','喝水'),('toilet','上厕所'),('pet','摸摸'),('toy','拔玩具'),('outdoor','出游'),('wardrobe','换装'),('sleep','睡觉'),('more','更多')]
@@ -262,13 +274,75 @@ class DesktopPet:
                 if x<=px<x+win.winfo_width() and y<=py<y+win.winfo_height(): return
         rx,ry=px-self.root.winfo_rootx(),py-self.root.winfo_rooty()
         if self.outdoor and 0<=rx<self.width and 0<=ry<290:return
-        if self.hit:
-            left,top,size,name,flip=self.hit
-            if left<=rx<left+size and top<=ry<top+size:
-                im=self.images[name]; ix=min(im.width-1,int((rx-left)*im.width/size)); iy=min(im.height-1,int((ry-top)*im.height/size))
-                if flip:ix=im.width-1-ix
-                if im.getpixel((ix,iy))[3]>40:return
+        if self.pet_at(rx,ry):return
         self.hide_tools()
+
+    def pet_at(self,rx,ry):
+        """Whether a point in the pet window lands on her fur rather than a transparent margin."""
+        if not self.hit:return False
+        left,top,size,name,flip=self.hit
+        if not (left<=rx<left+size and top<=ry<top+size):return False
+        im=self.images[name]; ix=min(im.width-1,int((rx-left)*im.width/size)); iy=min(im.height-1,int((ry-top)*im.height/size))
+        if flip:ix=im.width-1-ix
+        return im.getpixel((ix,iy))[3]>40
+
+    def pet_zone(self,rx,ry):
+        """None off her fur, 'head' on her head, otherwise 'body'."""
+        if not self.pet_at(rx,ry):return None
+        left,top,size,_,flip=self.hit
+        hx,hy=head_point(self.state.stage,(left,top,size/ART),not flip)
+        return 'head' if math.hypot(rx-hx,ry-hy)<=HEADS[self.state.stage]['radius']*size/ART*1.1 else 'body'
+
+    def pointer_motion(self,e):
+        if self.outdoor or self.hidden or self.paused or self.action or self.fetch_mode or self.tug is not None:
+            self.stroke.reset();return
+        if self.stroke.feed(e.x,e.y,time.monotonic(),self.pet_zone(e.x,e.y)):self.stroke_pet()
+
+    def stroke_pet(self):
+        now=time.monotonic()
+        # She leans into every rub; the 摸摸 reward and its message only come when it is off cooldown,
+        # and while it cools down she just enjoys it instead of nagging.
+        self.petting.hold(now,now+PET_HOLD)
+        if self.state.check('pet',time.time()):return False
+        if not self.start_action('pet'):return False
+        self.say('好舒服～再摸摸',3)
+        return True
+
+    def facing_applies(self,typing):
+        return not typing and self.action in (None,'pet') and not self.paused and not self.fetch_mode and not self.outdoor
+
+    def follow_pointer(self,now):
+        if self.hidden or self.paused:
+            self.circle.reset();return
+        if self.outdoor or self.fetch_mode or self.tug is not None or self.action not in (None,'pet'):
+            # Other actions and scenes have their own left-facing poses; pick up from there afterwards.
+            self.facing.rest();self.petting.stop();self.circle.reset();return
+        if self.action=='pet':self.petting.hold(now,self.action_started+ACTIONS['pet']['duration']-PET_RELEASE)
+        # Idle paintings are drawn 240px square, bottom-centred at (width/2, 275) in the pet window.
+        rx,ry=self.root.winfo_rootx(),self.root.winfo_rooty()
+        canvas=(rx+self.width/2-120,ry+275-240,240/ART)
+        pointer=self.pointer()
+        self.facing.update(now,pointer,self.state.stage,canvas,petting=self.petting.amount(now),follow=self.state.mouse_follow)
+        if self.action or self.petting.active(now):self.circle.reset()
+        elif self.circle.feed(pointer,body_middle(self.state.stage,canvas,self.facing.left),now,
+                              self.pet_at(pointer[0]-rx,pointer[1]-ry)):
+            self.start_action('dance')
+
+    def posed_sprite(self,name,flip,size,x_scale,y_scale,tail):
+        """Her painting with head, ears and tail bent and squashed for a hop; rebuilt only when it changes."""
+        idle=name==self.state.outfit+'_'+AGES[self.state.stage]
+        head=tuple(round(v*4)/4 for v in self.facing.head) if idle else (0.,0.)
+        ears=round(self.facing.ears*50)/50 if idle else 0.
+        tail=round(tail*4)/4 if idle else 0.
+        dims=(round(size*x_scale),round(size*y_scale))
+        if head==(0.,0.) and not ears and not tail:return self.photo(name,dims,flip)
+        key=(name,flip,dims,head,ears,tail)
+        if key!=self.pose_key:
+            if name not in self.rigs:self.rigs[name]=HeadRig(self.images[name],self.state.stage)
+            frame=pose_frame(self.rigs[name],flip=flip,head=head,ears=ears,tail=tail).resize(dims,Image.Resampling.LANCZOS)
+            if os.name=='nt':frame.putalpha(frame.getchannel('A').point(lambda a:255 if a>=128 else 0))
+            self.pose_key,self.pose_photo=key,ImageTk.PhotoImage(frame,master=self.root)
+        return self.pose_photo
 
     def hide_tools(self):
         self.close_trip_picker()
@@ -315,6 +389,7 @@ class DesktopPet:
         elif key=='leave_fetch':self.close_fetch()
         elif key=='leave_tug':self.close_tug()
         elif key=='retry_tug':self.tug=TugRound(ACTIONS['toy']['duration'])
+        elif key=='stop_dance':self.cancel_action()
         elif key in NEED_ACTIONS.values():self.start_action(key)
         elif key=='walk':
             if self.action=='walk':self.cancel_action()
@@ -354,6 +429,7 @@ class DesktopPet:
 
     def hide_pet(self):
         if self.hidden:return
+        self.end_dance()
         x,y=self.root.winfo_x(),self.root.winfo_y()
         if self.state.window_position is None:
             self.state.window_position=(x,y)
@@ -551,6 +627,7 @@ class DesktopPet:
             self.resume_button.place_forget()
             self.say('继续陪你啦',2)
         else:
+            self.end_dance()
             self.stop_gesture()
             self.hide_tools()
             self.paused=True
@@ -581,6 +658,7 @@ class DesktopPet:
         if key=='dance':
             self.close_more()
             self.hide_tools()
+            self.open_stage()
         if self.outdoor and key in NEED_ACTIONS.values():self.close_more()
         self.say(ACTIONS[key]['label']+'中…',ACTIONS[key]['duration']+1)
         return True
@@ -590,9 +668,30 @@ class DesktopPet:
             self.close_tug()
             return
         self.cancel_charge()
+        if self.action=='dance':self.close_stage()
         self.action=None
         self.resume_walk(self.pause_started if self.paused else time.monotonic())
         self.say('好啦，继续陪着你')
+
+    def open_stage(self):
+        """The window becomes the dance stage, bottom-centred where she stood, and the music starts."""
+        x,y=self.root.winfo_x(),self.root.winfo_y()
+        self.stage_return=(x,y,self.width,self.height)
+        self.width,self.height=STAGE_SIZE
+        self.resize_window((x+(self.stage_return[2]-self.width)//2,y+self.stage_return[3]-self.height))
+        self.dance.play()
+
+    def close_stage(self):
+        self.dance.stop()
+        x,y,self.width,self.height=self.stage_return
+        self.stage_return=None
+        self.resize_window((x,y))
+
+    def end_dance(self):
+        """Pausing, hiding or quitting cuts a dance short without a message."""
+        if self.action=='dance':
+            self.close_stage()
+            self.action=None
 
     def resume_walk(self,now):
         if self.walk_resume is not None:
@@ -677,6 +776,8 @@ class DesktopPet:
             name=ACTIONS[self.action]['pose']
             if name in ('eat','drink','play','sleep'): return motion_frame(outfit,stage,name,now-self.action_started),False
             if name=='shy': return outfit+'_shy',False
+        elif self.petting.active(now):
+            return outfit+'_'+AGES[stage],False
         elif self.state.low_needs():
             need=self.state.low_needs()[0]
             return motion_frame(outfit,stage,NEEDS[need][0],0 if self.paused else now),False
@@ -755,18 +856,28 @@ class DesktopPet:
                 self.fire_photo=ImageTk.PhotoImage(fire,master=self.root)
                 c.create_image(x,y,image=self.fire_photo,anchor='s',tags='typing_flame')
             bob=math.sin(now*(1 if self.state.low_needs() else 2))*(.5 if self.state.low_needs() else 1.5) if not self.paused and not self.action else 0
-            sprite=self.photo(name,(size,size),flip)
+            lift=0.
+            if self.facing_applies(typing):
+                flip,lift,x_scale,y_scale=self.facing.view(now)
+                sprite=self.posed_sprite(name,flip,size,x_scale,y_scale,self.petting.tail(now))
+            else:sprite=self.photo(name,(size,size),flip)
             if care is not None:
                 if os.name=='nt':
                     care.putalpha(care.getchannel('A').point(lambda a:255 if a>=128 else 0))
                 self.care_photo=ImageTk.PhotoImage(care,master=self.root)
                 sprite=self.care_photo
-            c.create_image(x,y+bob,image=sprite,anchor='s',tags='pet_sprite')
-            self.hit=(x-size/2,y+bob-size,size,name,flip)
+            c.create_image(x,y+bob-lift,image=sprite,anchor='s',tags='pet_sprite')
+            self.hit=(x-size/2,y+bob-lift-size,size,name,flip)
         if self.action=='toilet' and 1.2<elapsed<6.8:
             screen_size=round(base_size*(.70,.88,1.)[self.state.stage])
             self.draw_toilet_screen(c,x,y,screen_size,elapsed)
-        if self.action=='pet': c.create_text(x,y-size+35,text='♥',fill='#d58988',font=('Segoe UI',22))
+        if self.action=='pet' or self.petting.active(now):
+            if self.outdoor:heart_x,heart_top,since=x,y-size+40,elapsed
+            else:
+                heart_x,head_y=head_point(self.state.stage,(x-size/2,y-size,size/ART),not flip)
+                heart_top,since=head_y-HEADS[self.state.stage]['radius']*size/ART,now-self.petting.started
+            for hx,hy,font_size in heart_positions(since,heart_x,heart_top,5 if self.action=='pet' else 2):
+                c.create_text(hx,hy,text='♥',fill='#d58988',font=('Segoe UI',font_size),tags='pet_heart')
         if self.action=='ball' and elapsed/ACTIONS['ball']['duration']>.92:
             c.create_text(x,y-size-10,text='✦  好棒！  ✦',fill=TEAL,font=(UI_FONT,11,'bold'))
         reminder=self.state.break_reminders and self.work_break.due and not self.paused
@@ -821,15 +932,13 @@ class DesktopPet:
             self.scene_controls['retry_tug']=TUG_RETRY
 
     def render_dance(self,elapsed):
-        outfit,stage=self.state.outfit,self.state.stage
-        name=f'{outfit}_{AGES[stage]}'
-        if name not in self.dance_routines:
-            self.dance_routines[name]=DanceRoutine(self.images[name],stage,self.images.get('dance_cat'))
-        frame=self.dance_routines[name].frame(elapsed,self.width,self.height)
-        if os.name=='nt':
-            frame.putalpha(frame.getchannel('A').point(lambda value:255 if value>=128 else 0))
-        self.dance_photo=ImageTk.PhotoImage(frame,master=self.root)
+        self.dance_photo=ImageTk.PhotoImage(self.dance.frame(elapsed),master=self.root)
         self.desktop.create_image(0,0,image=self.dance_photo,anchor='nw',tags='dance_stage')
+        # The stop button only covers the clip while the cursor is over the stage.
+        px,py=self.pointer()
+        if 0<=px-self.root.winfo_rootx()<self.width and 0<=py-self.root.winfo_rooty()<self.height:
+            draw_scene_button(self.desktop,STOP_BUTTON,'× 停止','dance_stop')
+            self.scene_controls['stop_dance']=STOP_BUTTON
         self.hit=None
 
     def tick(self):
@@ -849,6 +958,7 @@ class DesktopPet:
                     self.save()
         elif not self.paused and self.action and now-self.action_started>=ACTIONS[self.action]['duration']:
             key=self.action; self.action=None
+            if key=='dance':self.close_stage()
             self.state.finish(key,time.time(),already_started=True)
             self.say('她收起耳朵了，摸摸她吧' if key=='tap' else ACTIONS[key]['label']+'完成啦')
             if key=='ball':
@@ -864,6 +974,7 @@ class DesktopPet:
         if self.keyboard.error and not self.keyboard_error_shown: self.keyboard_error_shown=True; self.say(self.keyboard.error,15)
         self.poll_updates()
         if self.closing: return
+        self.follow_pointer(now)
         if not self.hidden:
             self.render(now)
         if (self.more or self.status_strip) and now-self.last_panel_refresh>.25:
@@ -871,7 +982,8 @@ class DesktopPet:
             if self.status_strip:self.status_strip.refresh(self.state)
             self.last_panel_refresh=now
         if now-self.last_save>30: self.save(); self.last_save=now
-        animated=self.tug is not None or self.flame.level or self.action in ('ball','snack','sleep','feed','water','dance') or self.charge.started is not None
+        animated=(self.tug is not None or self.flame.level or self.action in ('ball','snack','sleep','feed','water','dance','pet')
+                  or self.charge.started is not None or self.facing.animating(now) or self.petting.active(now))
         interval = 180 if self.paused or self.hidden else 33 if animated else 90
         remaining = interval - round((time.monotonic()-now)*1000)
         self.root.after(max(1,remaining),self.tick)
@@ -884,6 +996,7 @@ class DesktopPet:
                                              icon='warning',parent=self.root):
             return False
         self.closing=True
+        self.end_dance()
         self.stop_gesture()
         self.close_more()
         self.hide_tools()

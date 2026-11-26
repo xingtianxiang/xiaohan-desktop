@@ -203,7 +203,8 @@ class MorePanel:
 
     def build_settings(self, body):
         self.switches = {}
-        switches = [('keyboard_enabled','跟着打字'),('flames','打字火光'),('break_reminders','休息提醒 · 60 / 10 分钟')]
+        switches = [('keyboard_enabled','跟着打字'),('flames','打字火光'),('mouse_follow','看向鼠标'),
+                    ('break_reminders','休息提醒 · 60 / 10 分钟')]
         if self.app.updates_supported:
             switches.append(('update_checks','自动检查更新'))
         for key,title in switches:

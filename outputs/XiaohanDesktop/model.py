@@ -26,7 +26,8 @@ NEED_ACTIONS = {'food': 'feed', 'water': 'water', 'energy': 'sleep', 'toilet': '
 # Antivirus and file indexers briefly open new files without delete sharing.
 SAVE_REPLACE_ATTEMPTS = 3
 SAVE_RETRY_SECONDS = .1
-DANCE_SECONDS = 8
+# Length of the Jimeng stage clip (assets/dance_stage.webp at dance.FPS).
+DANCE_SECONDS = 14
 # Tunable first-release game balance; seconds are active companionship, not wall age.
 ACTIONS = {
     'feed': dict(label='喂一餐', duration=5, cooldown=30, pose='eat', effects={'food': 25, 'bond': 1, 'mood': 3}),
@@ -65,6 +66,7 @@ class PetState:
         self.flames = True
         self.break_reminders = True
         self.update_checks = True
+        self.mouse_follow = True
         self.cooldowns = {}
         self.completed = 0
         self.created = time.time()
@@ -220,6 +222,9 @@ class PetState:
         if type(data.get('update_checks', True)) is not bool:
             raise ValueError('检查更新设置不合法')
         state.update_checks = data.get('update_checks', True)
+        if type(data.get('mouse_follow', True)) is not bool:
+            raise ValueError('看向鼠标设置不合法')
+        state.mouse_follow = data.get('mouse_follow', True)
         state.cooldowns = {key: number(value, 0, 1e12) for key, value in data['cooldowns'].items() if key in ACTIONS}
         state.completed = number(data['completed'], 0, 1e12)
         state.created = number(data['created'], 0, 1e12)

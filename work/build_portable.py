@@ -24,7 +24,8 @@ def main():
         raise SystemExit('Output already exists; retain/review the previous release before rebuilding.')
     BUILD.mkdir(parents=True,exist_ok=True)
     assets=[(str(p),'assets') for p in sorted((APP/'assets').glob('*.png'))]
-    assets.append((str(APP/'assets/fetch-anchors.json'),'assets'))
+    for name in ('fetch-anchors.json','dance_stage.webp','dance_stage.wav'):
+        assets.append((str(APP/'assets'/name),'assets'))
     spec=BUILD/'xiaohan.spec'
     spec.write_text(
         f'a=Analysis([{str(APP/"app.py")!r}],pathex=[{str(APP)!r}],datas={assets!r},hiddenimports=[],excludes=[])\n'
@@ -53,6 +54,9 @@ def main():
 鼠标移到小汉身上，会出现九宫格按钮：
 喂食、喝水、上厕所、摸摸、玩玩具、出游、换装、睡觉、更多。
 按住小汉可以拖动；右键也能打开更多。退出在“更多”最下方。
+鼠标在小汉头上移动或在身上来回轻划就是摸摸，她会耳朵后贴、摇尾巴；
+鼠标放在她头上时头会跟着动，靠近时她会看向鼠标，可在设置里关闭。
+鼠标在她周围画一整圈，她就会上台跳那支即梦生成的舞，带原声，按 Esc 或点“× 停止”结束。
 打字时她会一起敲键盘，火光随速度变大变小，鼠标不会点燃火光。
 出游可选公园或雪地；扔球时按住鼠标蓄力、松手抛出。
 
@@ -70,7 +74,7 @@ def main():
 
 系统：Windows 10 / 11，64 位 Intel/AMD；不适用于 macOS、手机或 32 位 Windows。
 程序只会联网检查和下载小汉自己的更新（可在“更多 → 设置”关闭），不上传任何数据，
-不保存键盘输入内容，不添加开机自启。
+不保存键盘输入内容，鼠标位置只用于转身、不记录，不添加开机自启。
 此分享版没有代码签名，Windows 可能显示未知发布者提示。
 ''',encoding='utf-8-sig')
     members=list(DIST.rglob('*'))

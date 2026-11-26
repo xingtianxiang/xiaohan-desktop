@@ -6,9 +6,9 @@ from PIL import Image, ImageChops
 from app import DesktopPet
 from animation import AGES, FRAME_COUNTS, frame_names, required_assets
 from care_motion import bowl_frame, snack_frame, sleep_frame
+from mouse_play import Petting
 from farewell import farewell_pose
 from model import PetState, OUTFITS, STAGES
-from dance import ANKLES, DancePose, FORELEGS, footwork
 
 ASSETS = Path(__file__).resolve().parents[1] / 'assets'
 
@@ -24,6 +24,7 @@ class AgeAnimationTests(unittest.TestCase):
         self.app.fetch_mode = False
         self.app.outdoor = False
         self.app.walk_clock = 0.
+        self.app.petting = Petting()
 
     def test_all_age_outfit_frames_exist_and_fit(self):
         for name in required_assets(OUTFITS):
@@ -46,6 +47,13 @@ class AgeAnimationTests(unittest.TestCase):
                     self.assertIn(name,frame_names(outfit,stage,motion));self.assertFalse(typing)
                     self.app.action='water'
                     self.assertIn(self.app.pose(100.1)[0],frame_names(outfit,stage,'drink'))
+
+    def test_petting_shows_the_idle_painting_over_need_poses(self):
+        for stage in range(3):
+            self.app.state=PetState();self.app.state.stage=stage;self.app.state.values['food']=10
+            self.app.petting=Petting();self.app.petting.hold(100,101)
+            self.assertEqual(self.app.pose(100.5),('blue_'+AGES[stage],False))
+            self.assertIn(self.app.pose(103)[0],frame_names('blue',stage,'hungry'))
 
     def test_actions_route_to_distinct_age_art_not_scaled_adult(self):
         actions = {'feed':'eat', 'water':'drink', 'sleep':'sleep', 'walk':'walk', 'ball':'walk', 'toy':'play'}
@@ -110,32 +118,6 @@ class AgeAnimationTests(unittest.TestCase):
                     moving=farewell_pose(standing,bounds,.48).getchannel('A')
                     self.assertTrue(ImageChops.difference(alpha,moving).getbbox())
                     self.assertEqual(alpha.crop(ground).tobytes(),moving.crop(ground).tobytes())
-
-    def test_dance_lifts_a_front_paw_with_the_support_paws_planted(self):
-        for outfit in OUTFITS:
-            for stage,age in enumerate(AGES):
-                with self.subTest(outfit=outfit,age=age), Image.open(
-                    ASSETS/f'{outfit}_{age}.png'
-                ) as image:
-                    standing=image.convert('RGBA')
-                    raised=DancePose(standing,FORELEGS[stage],ANKLES[stage]).pose(14,-8,65)
-                    original_alpha=standing.getchannel('A')
-                    raised_alpha=raised.getchannel('A')
-                    left_sole=(0,229,79,245)
-                    support=(108,234,256,256)
-                    self.assertTrue(ImageChops.difference(original_alpha.crop(left_sole),
-                                                           raised_alpha.crop(left_sole)).getbbox())
-                    self.assertEqual(original_alpha.crop(support).tobytes(),raised_alpha.crop(support).tobytes())
-
-    def test_dance_rolls_onto_the_other_diagonal_before_stepping(self):
-        transfer=((1,3,-20,18,True),)
-        for beat,planted in ((1.4,(0,3)), (2.5,(1,2))):
-            with self.subTest(beat=beat):
-                root,feet=footwork(beat,0,transfer)
-                for i in planted:
-                    self.assertAlmostEqual(root+feet[i][0],0 if beat<2 else -20)
-                    self.assertAlmostEqual(feet[i][1],0)
-                self.assertTrue(any(lift>8 for _,lift in feet))
 
     def test_typing_all_stages_then_stopping_and_action_priority(self):
         for outfit in OUTFITS:
