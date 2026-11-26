@@ -1,0 +1,52 @@
+name: Build Xiaohan for Mac
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mac:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            arch: arm64
+          - runner: macos-15-intel
+            arch: x64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          architecture: ${{ matrix.arch }}
+      - name: Install build dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Unit tests
+        working-directory: app
+        run: python -m unittest discover -s tests -v
+      - name: Build app and ZIP
+        run: python build_mac.py
+      - name: Verify extracted application
+        run: python check_mac.py
+      - name: Upload verified build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Xiaohan-macOS-${{ matrix.arch }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Preserve check reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Xiaohan-checks-${{ matrix.arch }}
+          path: |
+            verification/first/result.json
+            verification/reopen/result.json
+            build/cache/mac/warn-mac.txt
+          if-no-files-found: ignore
+          retention-days: 7

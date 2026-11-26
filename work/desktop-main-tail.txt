@@ -1,0 +1,42 @@
+    def close(self):
+        if not self.save():
+            return
+        self.closing=True
+        self.keyboard.stop()
+        self.root.destroy()
+
+def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--data',default=str(BASE/'data'/'pet.json'))
+    parser.add_argument('--smoke',type=Path)
+    args=parser.parse_args()
+    if os.name=='nt':
+        try:
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)
+        except OSError:
+            pass
+    root=tk.Tk();root.withdraw()
+    mutex=None
+    if os.name=='nt' and not args.smoke:
+        kernel=ctypes.WinDLL('kernel32',use_last_error=True)
+        kernel.CreateMutexW.argtypes=[ctypes.c_void_p,ctypes.c_bool,ctypes.c_wchar_p]
+        kernel.CreateMutexW.restype=ctypes.c_void_p
+        mutex=kernel.CreateMutexW(None,False,'Local\\XiaohanDesktopCompanion')
+        if not mutex:
+            messagebox.showerror('启动失败','无法创建单实例锁');root.destroy();return
+        if ctypes.get_last_error()==183:
+            messagebox.showinfo('小焊已经在陪你啦','请点击桌面上的小焊打开菜单。');root.destroy();return
+    try:
+        app=DesktopPet(root,args.data,args.smoke)
+    except (OSError,ValueError,KeyError,RuntimeError) as exc:
+        messagebox.showerror('小焊未能启动',f'{exc}\n\n已有存档不会被覆盖。');root.destroy();return
+    root.deiconify()
+    if args.smoke:
+        from smoke import schedule
+        schedule(app,args.smoke)
+    root.mainloop()
+    if mutex:
+        kernel.CloseHandle.argtypes=[ctypes.c_void_p];kernel.CloseHandle(mutex)
+
+if __name__=='__main__':
+    main()

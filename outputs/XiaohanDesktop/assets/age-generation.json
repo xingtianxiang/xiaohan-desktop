@@ -1,0 +1,1096 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-11-12",
+  "prompts": [
+    {
+      "age": "puppy",
+      "outfit": "blue",
+      "prompt": "Create production animation sprite atlas of Xiaohan, the white Samoyed desktop pet. Reference 1 is the approved original puppy identity; reference 2 shows approved outfits and illustration style, not a layout to copy.\nEXACTLY a 4-column by 4-row regular grid, 16 separate sprites, square canvas, equal cells, transparent background with genuine alpha, no text, no grid lines, no scenery, no cast shadow. Each sprite entirely inside its cell with generous margins. Consistent scale and baseline across each animation sequence.\nONLY BABY PUPPY in every cell: rounded fluffy head, tiny compact body, very short legs, short muzzle, bright black eyes and black nose, small upright triangular ears, curled plume tail. Cute relaxed face, never aggressive, never floppy ears. Same delicate warm hand-painted pencil-and-watercolor illustration as references, NOT 3D and not generic emoji. Blue harness with small round gold blue badge on chest, all16poses.\nRow1: col1 eating kibble from mint bowl head down, col2 eating head slightly up chewing; col3 lapping clear water from pale blue bowl tongue near water, col4 lapping with small water ripple.\nRow2: col1 curled up sleeping eyes shut, col2 same curled sleeping with subtle breathing chest shift; col3 crouching playfully gently pulling red fabric toy, col4 slight head pull with same red fabric toy.\nRow3: four-frame looping puppy keyboard typing sequence, sitting front view, ONLY TWO oversized pastel keycaps on dark small base, alternating left paw down right lifted, both near keys, right down left lifted, both near keys. Both eyes open and gentle smile. No flames here, they are separate game effect.\nRow4: four-frame looping side three-quarter walking cycle facing LEFT, different foreleg and hindleg steps in every cell. Small bouncy baby steps, compact body throughout. No leash, no scenery.\nPreserve recognizably infant anatomy, not a scaled down adult. All paws and props must fit cells. No human hands."
+    },
+    {
+      "age": "teen",
+      "outfit": "blue",
+      "prompt": "Create production animation sprite atlas of Xiaohan, the white Samoyed desktop pet. Reference 1 is the approved original adolescent identity; reference 2 shows approved outfits and illustration style, not a layout to copy.\nEXACTLY a 4-column by 4-row regular grid, 16 separate sprites, square canvas, equal cells, transparent background with genuine alpha, no text, no grid lines, no scenery, no cast shadow. Each sprite entirely inside its cell with generous margins. Consistent scale and baseline across each animation sequence.\nONLY ADOLESCENT/JUVENILE dog in every cell: visibly longer slender legs than a baby, lean youthful body, medium triangular upright ears, medium muzzle, less enormous head than baby, fluffy but not the large adult neck mane, bright black eyes and black nose, curled plume tail. Cute relaxed face, never aggressive, never floppy ears. Same delicate warm hand-painted pencil-and-watercolor illustration as references, NOT 3D and not generic emoji. Blue harness with small round gold blue badge on chest, all16poses.\nRow1: col1 eating kibble from mint bowl head down, col2 eating head slightly up chewing; col3 lapping clear water from pale blue bowl tongue near water, col4 lapping with small water ripple.\nRow2: col1 curled up sleeping eyes shut, col2 same curled sleeping with subtle breathing chest shift; col3 crouching playfully gently pulling red fabric toy, col4 slight head pull with same red fabric toy.\nRow3: four-frame looping adolescent keyboard typing sequence, sitting front view, ONLY TWO oversized pastel keycaps on dark small base, alternating left paw down right lifted, both near keys, right down left lifted, both near keys. Both eyes open and gentle smile. No flames here, they are separate game effect.\nRow4: four-frame looping side three-quarter walking cycle facing LEFT, different foreleg and hindleg steps in every cell. Lively longer strides with lanky adolescent anatomy throughout. No leash, no scenery.\nPreserve recognizably juvenile anatomy, distinct from both the round infant and the bulky mature adult. All paws and props must fit cells. No human hands."
+    },
+    {
+      "age": "puppy",
+      "outfit": "red",
+      "prompt": "Edit this 4x4 sprite atlas. ONLY change the clothing of the same baby puppy in ALL 16 cells: replace the blue harness and badge completely with a soft red triangular neck bandana tied behind neck. NO blue harness remaining, NO badge. Preserve exact infant anatomy, pose, facial identity, outlines, painterly fur, prop colors, scale, all16cell positions and transparent background. Do not recolor red fabric toy or bowls or keyboard. No added scene or text. Genuine clean alpha transparency; no speckles or halo in empty space."
+    },
+    {
+      "age": "teen",
+      "outfit": "red",
+      "prompt": "Edit this 4x4 transparent sprite atlas. ONLY change clothing in ALL16 cells from blue harness and badge to soft red triangular neck bandana tied behind neck, with no harness or badge remaining. Preserve EXACT ADOLESCENT body proportions: longer slender legs, lean youthful torso, medium muzzle, medium upright ears, no floppy ears, not a round baby. Preserve each pose, exact grid positions, all props and hand-painted illustration style. Four rows: eat/eat/drink/drink, sleep/sleep/play/play, four typing frames on two large keys, four walking frames. Transparent empty background with alpha ZERO, no white fill, no shadow, no glow or halo, no background texture. No text."
+    },
+    {
+      "age": "puppy",
+      "outfit": "yellow",
+      "prompt": "Edit this 4x4 transparent sprite atlas. ONLY change clothing in ALL16 cells from blue harness and badge to a warm YELLOW sleeveless dog vest with BLUE piping at neck, arm holes, and hem, no harness or badge remaining. Preserve EXACT BABY anatomy: compact round body, short chubby legs, large fluffy head, short muzzle, small upright ears, never floppy. Preserve each pose, exact grid positions, all props and delicate hand-painted illustration style. Four rows: eat/eat/drink/drink, sleep/sleep/play/play, four typing frames on two large keys, four walking frames. Transparent empty background with alpha ZERO, no white fill, no shadow, no glow or halo, no background texture. No text."
+    },
+    {
+      "age": "teen",
+      "outfit": "yellow",
+      "prompt": "Edit this 4x4 transparent sprite atlas. ONLY change clothing in ALL16 cells from blue harness and badge to a warm YELLOW sleeveless dog vest with BLUE piping at neck, arm holes, and hem, no harness or badge remaining. Preserve EXACT ADOLESCENT anatomy: longer slender legs, lean youthful torso, medium muzzle, medium upright ears, never floppy. NOT a round baby. Preserve each pose, exact grid positions, all props and delicate hand-painted illustration style. Four rows: eat/eat/drink/drink, sleep/sleep/play/play, four typing frames on two large keys, four walking frames. Transparent empty background with alpha ZERO, no white fill, no shadow, no glow or halo, no background texture. No text."
+    }
+  ],
+  "sourceDirectory": "../../../work/age-action-sources",
+  "framesAdded": 96,
+  "frames": [
+    {
+      "name": "blue_puppy_eat0",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 0,
+      "bbox": [
+        59,
+        99,
+        258,
+        307
+      ]
+    },
+    {
+      "name": "blue_puppy_eat1",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 1,
+      "bbox": [
+        53,
+        89,
+        260,
+        301
+      ]
+    },
+    {
+      "name": "blue_puppy_drink0",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 2,
+      "bbox": [
+        52,
+        98,
+        258,
+        307
+      ]
+    },
+    {
+      "name": "blue_puppy_drink1",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 3,
+      "bbox": [
+        50,
+        90,
+        261,
+        306
+      ]
+    },
+    {
+      "name": "blue_puppy_sleep0",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 4,
+      "bbox": [
+        58,
+        127,
+        269,
+        267
+      ]
+    },
+    {
+      "name": "blue_puppy_sleep1",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 5,
+      "bbox": [
+        57,
+        123,
+        267,
+        266
+      ]
+    },
+    {
+      "name": "blue_puppy_play0",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 6,
+      "bbox": [
+        27,
+        62,
+        284,
+        270
+      ]
+    },
+    {
+      "name": "blue_puppy_play1",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 7,
+      "bbox": [
+        31,
+        60,
+        276,
+        269
+      ]
+    },
+    {
+      "name": "blue_puppy_type0",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 8,
+      "bbox": [
+        62,
+        20,
+        265,
+        286
+      ]
+    },
+    {
+      "name": "blue_puppy_type1",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 9,
+      "bbox": [
+        62,
+        20,
+        264,
+        286
+      ]
+    },
+    {
+      "name": "blue_puppy_type2",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 10,
+      "bbox": [
+        62,
+        20,
+        265,
+        286
+      ]
+    },
+    {
+      "name": "blue_puppy_type3",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 11,
+      "bbox": [
+        63,
+        19,
+        263,
+        286
+      ]
+    },
+    {
+      "name": "blue_puppy_walk0",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 12,
+      "bbox": [
+        48,
+        73,
+        267,
+        269
+      ]
+    },
+    {
+      "name": "blue_puppy_walk1",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 13,
+      "bbox": [
+        47,
+        71,
+        258,
+        266
+      ]
+    },
+    {
+      "name": "blue_puppy_walk2",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 14,
+      "bbox": [
+        45,
+        73,
+        261,
+        269
+      ]
+    },
+    {
+      "name": "blue_puppy_walk3",
+      "source": "exec-c4be7281-11ff-41ec-ba0b-3d31b5c9d108.png",
+      "cell": 15,
+      "bbox": [
+        45,
+        73,
+        260,
+        269
+      ]
+    },
+    {
+      "name": "blue_teen_eat0",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 0,
+      "bbox": [
+        48,
+        47,
+        273,
+        303
+      ]
+    },
+    {
+      "name": "blue_teen_eat1",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 1,
+      "bbox": [
+        46,
+        44,
+        272,
+        303
+      ]
+    },
+    {
+      "name": "blue_teen_drink0",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 2,
+      "bbox": [
+        46,
+        43,
+        273,
+        303
+      ]
+    },
+    {
+      "name": "blue_teen_drink1",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 3,
+      "bbox": [
+        46,
+        42,
+        273,
+        303
+      ]
+    },
+    {
+      "name": "blue_teen_sleep0",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 4,
+      "bbox": [
+        47,
+        113,
+        282,
+        267
+      ]
+    },
+    {
+      "name": "blue_teen_sleep1",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 5,
+      "bbox": [
+        45,
+        111,
+        281,
+        267
+      ]
+    },
+    {
+      "name": "blue_teen_play0",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 6,
+      "bbox": [
+        20,
+        53,
+        291,
+        269
+      ]
+    },
+    {
+      "name": "blue_teen_play1",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 7,
+      "bbox": [
+        21,
+        48,
+        293,
+        269
+      ]
+    },
+    {
+      "name": "blue_teen_type0",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 8,
+      "bbox": [
+        75,
+        19,
+        262,
+        286
+      ]
+    },
+    {
+      "name": "blue_teen_type1",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 9,
+      "bbox": [
+        75,
+        19,
+        262,
+        286
+      ]
+    },
+    {
+      "name": "blue_teen_type2",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 10,
+      "bbox": [
+        75,
+        20,
+        262,
+        286
+      ]
+    },
+    {
+      "name": "blue_teen_type3",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 11,
+      "bbox": [
+        76,
+        19,
+        262,
+        286
+      ]
+    },
+    {
+      "name": "blue_teen_walk0",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 12,
+      "bbox": [
+        44,
+        42,
+        296,
+        278
+      ]
+    },
+    {
+      "name": "blue_teen_walk1",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 13,
+      "bbox": [
+        43,
+        42,
+        277,
+        278
+      ]
+    },
+    {
+      "name": "blue_teen_walk2",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 14,
+      "bbox": [
+        37,
+        45,
+        288,
+        276
+      ]
+    },
+    {
+      "name": "blue_teen_walk3",
+      "source": "exec-ab287b17-acf3-4f89-886e-c830931b2856.png",
+      "cell": 15,
+      "bbox": [
+        31,
+        45,
+        282,
+        276
+      ]
+    },
+    {
+      "name": "red_puppy_eat0",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 0,
+      "bbox": [
+        58,
+        96,
+        260,
+        308
+      ]
+    },
+    {
+      "name": "red_puppy_eat1",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 1,
+      "bbox": [
+        53,
+        82,
+        262,
+        303
+      ]
+    },
+    {
+      "name": "red_puppy_drink0",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 2,
+      "bbox": [
+        50,
+        95,
+        259,
+        308
+      ]
+    },
+    {
+      "name": "red_puppy_drink1",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 3,
+      "bbox": [
+        50,
+        86,
+        263,
+        308
+      ]
+    },
+    {
+      "name": "red_puppy_sleep0",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 4,
+      "bbox": [
+        55,
+        127,
+        273,
+        269
+      ]
+    },
+    {
+      "name": "red_puppy_sleep1",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 5,
+      "bbox": [
+        55,
+        123,
+        272,
+        269
+      ]
+    },
+    {
+      "name": "red_puppy_play0",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 6,
+      "bbox": [
+        25,
+        57,
+        286,
+        274
+      ]
+    },
+    {
+      "name": "red_puppy_play1",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 7,
+      "bbox": [
+        29,
+        56,
+        279,
+        273
+      ]
+    },
+    {
+      "name": "red_puppy_type0",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 8,
+      "bbox": [
+        58,
+        19,
+        269,
+        287
+      ]
+    },
+    {
+      "name": "red_puppy_type1",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 9,
+      "bbox": [
+        58,
+        19,
+        268,
+        287
+      ]
+    },
+    {
+      "name": "red_puppy_type2",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 10,
+      "bbox": [
+        58,
+        19,
+        268,
+        287
+      ]
+    },
+    {
+      "name": "red_puppy_type3",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 11,
+      "bbox": [
+        58,
+        18,
+        266,
+        287
+      ]
+    },
+    {
+      "name": "red_puppy_walk0",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 12,
+      "bbox": [
+        46,
+        71,
+        270,
+        271
+      ]
+    },
+    {
+      "name": "red_puppy_walk1",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 13,
+      "bbox": [
+        44,
+        70,
+        262,
+        269
+      ]
+    },
+    {
+      "name": "red_puppy_walk2",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 14,
+      "bbox": [
+        42,
+        71,
+        263,
+        271
+      ]
+    },
+    {
+      "name": "red_puppy_walk3",
+      "source": "exec-1f43de91-be27-4ad7-83fd-614870f4101e.png",
+      "cell": 15,
+      "bbox": [
+        43,
+        71,
+        264,
+        270
+      ]
+    },
+    {
+      "name": "red_teen_eat0",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 0,
+      "bbox": [
+        46,
+        42,
+        275,
+        306
+      ]
+    },
+    {
+      "name": "red_teen_eat1",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 1,
+      "bbox": [
+        44,
+        41,
+        274,
+        306
+      ]
+    },
+    {
+      "name": "red_teen_drink0",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 2,
+      "bbox": [
+        44,
+        40,
+        275,
+        306
+      ]
+    },
+    {
+      "name": "red_teen_drink1",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 3,
+      "bbox": [
+        45,
+        41,
+        276,
+        306
+      ]
+    },
+    {
+      "name": "red_teen_sleep0",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 4,
+      "bbox": [
+        45,
+        110,
+        284,
+        268
+      ]
+    },
+    {
+      "name": "red_teen_sleep1",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 5,
+      "bbox": [
+        44,
+        107,
+        282,
+        268
+      ]
+    },
+    {
+      "name": "red_teen_play0",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 6,
+      "bbox": [
+        18,
+        50,
+        294,
+        270
+      ]
+    },
+    {
+      "name": "red_teen_play1",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 7,
+      "bbox": [
+        18,
+        47,
+        297,
+        271
+      ]
+    },
+    {
+      "name": "red_teen_type0",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 8,
+      "bbox": [
+        75,
+        17,
+        268,
+        289
+      ]
+    },
+    {
+      "name": "red_teen_type1",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 9,
+      "bbox": [
+        74,
+        17,
+        267,
+        289
+      ]
+    },
+    {
+      "name": "red_teen_type2",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 10,
+      "bbox": [
+        75,
+        18,
+        267,
+        289
+      ]
+    },
+    {
+      "name": "red_teen_type3",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 11,
+      "bbox": [
+        75,
+        18,
+        268,
+        289
+      ]
+    },
+    {
+      "name": "red_teen_walk0",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 12,
+      "bbox": [
+        41,
+        40,
+        301,
+        281
+      ]
+    },
+    {
+      "name": "red_teen_walk1",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 13,
+      "bbox": [
+        42,
+        40,
+        279,
+        281
+      ]
+    },
+    {
+      "name": "red_teen_walk2",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 14,
+      "bbox": [
+        35,
+        43,
+        290,
+        280
+      ]
+    },
+    {
+      "name": "red_teen_walk3",
+      "source": "exec-8b194afa-d452-4e3d-9584-99dea0ac5c2a.png",
+      "cell": 15,
+      "bbox": [
+        29,
+        43,
+        284,
+        280
+      ]
+    },
+    {
+      "name": "yellow_puppy_eat0",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 0,
+      "bbox": [
+        58,
+        96,
+        260,
+        307
+      ]
+    },
+    {
+      "name": "yellow_puppy_eat1",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 1,
+      "bbox": [
+        52,
+        85,
+        262,
+        302
+      ]
+    },
+    {
+      "name": "yellow_puppy_drink0",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 2,
+      "bbox": [
+        50,
+        95,
+        260,
+        307
+      ]
+    },
+    {
+      "name": "yellow_puppy_drink1",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 3,
+      "bbox": [
+        49,
+        85,
+        265,
+        306
+      ]
+    },
+    {
+      "name": "yellow_puppy_sleep0",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 4,
+      "bbox": [
+        53,
+        124,
+        271,
+        268
+      ]
+    },
+    {
+      "name": "yellow_puppy_sleep1",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 5,
+      "bbox": [
+        55,
+        123,
+        273,
+        268
+      ]
+    },
+    {
+      "name": "yellow_puppy_play0",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 6,
+      "bbox": [
+        25,
+        58,
+        283,
+        272
+      ]
+    },
+    {
+      "name": "yellow_puppy_play1",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 7,
+      "bbox": [
+        28,
+        57,
+        278,
+        270
+      ]
+    },
+    {
+      "name": "yellow_puppy_type0",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 8,
+      "bbox": [
+        59,
+        19,
+        268,
+        287
+      ]
+    },
+    {
+      "name": "yellow_puppy_type1",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 9,
+      "bbox": [
+        60,
+        18,
+        267,
+        287
+      ]
+    },
+    {
+      "name": "yellow_puppy_type2",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 10,
+      "bbox": [
+        59,
+        18,
+        268,
+        287
+      ]
+    },
+    {
+      "name": "yellow_puppy_type3",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 11,
+      "bbox": [
+        60,
+        18,
+        267,
+        287
+      ]
+    },
+    {
+      "name": "yellow_puppy_walk0",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 12,
+      "bbox": [
+        45,
+        71,
+        266,
+        270
+      ]
+    },
+    {
+      "name": "yellow_puppy_walk1",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 13,
+      "bbox": [
+        45,
+        72,
+        262,
+        267
+      ]
+    },
+    {
+      "name": "yellow_puppy_walk2",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 14,
+      "bbox": [
+        42,
+        72,
+        264,
+        272
+      ]
+    },
+    {
+      "name": "yellow_puppy_walk3",
+      "source": "exec-16c618a8-63ed-4240-a756-8cadfd8f1ebf.png",
+      "cell": 15,
+      "bbox": [
+        43,
+        73,
+        264,
+        270
+      ]
+    },
+    {
+      "name": "yellow_teen_eat0",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 0,
+      "bbox": [
+        47,
+        41,
+        276,
+        306
+      ]
+    },
+    {
+      "name": "yellow_teen_eat1",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 1,
+      "bbox": [
+        45,
+        41,
+        275,
+        305
+      ]
+    },
+    {
+      "name": "yellow_teen_drink0",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 2,
+      "bbox": [
+        45,
+        40,
+        276,
+        305
+      ]
+    },
+    {
+      "name": "yellow_teen_drink1",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 3,
+      "bbox": [
+        45,
+        40,
+        278,
+        306
+      ]
+    },
+    {
+      "name": "yellow_teen_sleep0",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 4,
+      "bbox": [
+        46,
+        110,
+        288,
+        268
+      ]
+    },
+    {
+      "name": "yellow_teen_sleep1",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 5,
+      "bbox": [
+        44,
+        113,
+        284,
+        268
+      ]
+    },
+    {
+      "name": "yellow_teen_play0",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 6,
+      "bbox": [
+        19,
+        51,
+        293,
+        271
+      ]
+    },
+    {
+      "name": "yellow_teen_play1",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 7,
+      "bbox": [
+        19,
+        46,
+        296,
+        271
+      ]
+    },
+    {
+      "name": "yellow_teen_type0",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 8,
+      "bbox": [
+        75,
+        18,
+        265,
+        289
+      ]
+    },
+    {
+      "name": "yellow_teen_type1",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 9,
+      "bbox": [
+        75,
+        18,
+        264,
+        288
+      ]
+    },
+    {
+      "name": "yellow_teen_type2",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 10,
+      "bbox": [
+        75,
+        19,
+        266,
+        289
+      ]
+    },
+    {
+      "name": "yellow_teen_type3",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 11,
+      "bbox": [
+        75,
+        19,
+        266,
+        289
+      ]
+    },
+    {
+      "name": "yellow_teen_walk0",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 12,
+      "bbox": [
+        41,
+        41,
+        300,
+        281
+      ]
+    },
+    {
+      "name": "yellow_teen_walk1",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 13,
+      "bbox": [
+        42,
+        41,
+        279,
+        281
+      ]
+    },
+    {
+      "name": "yellow_teen_walk2",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 14,
+      "bbox": [
+        35,
+        44,
+        290,
+        280
+      ]
+    },
+    {
+      "name": "yellow_teen_walk3",
+      "source": "exec-96af9cbf-447d-4f4a-a979-f2859a67ae8e.png",
+      "cell": 15,
+      "bbox": [
+        30,
+        45,
+        286,
+        279
+      ]
+    }
+  ]
+}

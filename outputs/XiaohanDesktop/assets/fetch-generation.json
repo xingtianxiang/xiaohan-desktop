@@ -1,0 +1,12 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Edit the supplied Xiaohan white Samoyed character art into a production animation sprite atlas. Preserve the same warm delicate hand-painted storybook style, cream-white fluffy fur, upright small triangular ears (never floppy), gentle black eyes/nose, curled tail, and exact costume. REAL transparent background, no ground, no shadows, no text, no checkerboard drawn. Output ONE portrait atlas with exactly THREE equally sized columns and FOUR equally sized rows, 12 separate full-body drawings, equal roomy cells with no overlap. Column1 = baby puppy using reference1 proportions; column2 = adolescent using reference2; column3 = adult using reference3. All cells have consistent feet baseline, head scale within each age column, and full ears/tail/paws visible. Every sprite contains ONE SMALL muted orange fetch ball with a thin cream curved seam, sized to fit comfortably inside the closed mouth; it must be correctly gripped between lips, never floating in front of forehead, never huge. Row1: true side view facing RIGHT, dog standing on all fours and bending neck/head down to pick the ball off ground, nose and lips touching the small ball at ground next to front paws. Row2: dog trotting TOWARD viewer, frontal three-quarter view turned slightly to LEFT, ball correctly held in closed mouth under black nose, right forepaw forward. Row3: same frontal three-quarter left-facing returning trot with alternate left forepaw forward, same head position and mouth-ball geometry as row2, consistent body scale. Row4: facing viewer slightly LEFT, standing on all fours, neck/head lowering to place ball on the ground between front paws, lips touching ball on ground. No human hands, no bowl, no keyboard, no other toy. Make the difference between picking up and carrying anatomically clear. Do not merely mirror the original walk art. Keep the dog's identity and costume consistent. Large high-resolution portrait atlas, clean alpha suitable for cutting into 12 cells.",
+  "costumes": {
+    "blue": "blue chest harness with small round gold badge",
+    "red": "red triangular neckerchief, no harness",
+    "yellow": "warm yellow vest with blue edging"
+  },
+  "layout": "3 columns: puppy, teen, adult. 4 rows: pickup, carry0, carry1, drop.",
+  "sources": "work/fetch-action-sources",
+  "extraction": "work/build_fetch_assets.py"
+}

@@ -1,0 +1,866 @@
+{
+  "blue_puppy_fetch_pickup": {
+    "ball": [
+      0.22182865466101698,
+      0.035967293432203395
+    ],
+    "radius": 0.038690082097457626,
+    "source": "exec-774122e2-bdc6-4acd-80ab-4fb458001926.png",
+    "cell": [
+      0,
+      0
+    ]
+  },
+  "blue_puppy_fetch_drop": {
+    "ball": [
+      0.1764929819915254,
+      0.033765889830508544
+    ],
+    "radius": 0.04009699417372881,
+    "source": "exec-774122e2-bdc6-4acd-80ab-4fb458001926.png",
+    "cell": [
+      3,
+      0
+    ]
+  },
+  "blue_teen_fetch_pickup": {
+    "ball": [
+      0.27789062499999995,
+      0.03317708333333336
+    ],
+    "radius": 0.03498046875,
+    "source": "exec-774122e2-bdc6-4acd-80ab-4fb458001926.png",
+    "cell": [
+      0,
+      1
+    ]
+  },
+  "blue_teen_fetch_drop": {
+    "ball": [
+      0.18992838541666668,
+      0.038867187499999956
+    ],
+    "radius": 0.03951497395833333,
+    "source": "exec-774122e2-bdc6-4acd-80ab-4fb458001926.png",
+    "cell": [
+      3,
+      1
+    ]
+  },
+  "blue_fetch_pickup": {
+    "ball": [
+      0.2889680809737568,
+      0.027645890883977953
+    ],
+    "radius": 0.028523987828038673,
+    "source": "exec-774122e2-bdc6-4acd-80ab-4fb458001926.png",
+    "cell": [
+      0,
+      2
+    ]
+  },
+  "blue_fetch_drop": {
+    "ball": [
+      0.2081534875690607,
+      0.034573549723756924
+    ],
+    "radius": 0.03552043767265193,
+    "source": "exec-774122e2-bdc6-4acd-80ab-4fb458001926.png",
+    "cell": [
+      3,
+      2
+    ]
+  },
+  "red_puppy_fetch_pickup": {
+    "ball": [
+      0.18026061776061775,
+      0.03586510617760619
+    ],
+    "radius": 0.037614623552123555,
+    "source": "exec-72ecea36-aadd-46c8-ab35-5649348dad67.png",
+    "cell": [
+      0,
+      0
+    ]
+  },
+  "red_puppy_fetch_drop": {
+    "ball": [
+      0.1349541505791505,
+      0.038610038610038644
+    ],
+    "radius": 0.040857263513513514,
+    "source": "exec-72ecea36-aadd-46c8-ab35-5649348dad67.png",
+    "cell": [
+      3,
+      0
+    ]
+  },
+  "red_teen_fetch_pickup": {
+    "ball": [
+      0.23775036703020125,
+      0.03570024119127524
+    ],
+    "radius": 0.039029729446308725,
+    "source": "exec-72ecea36-aadd-46c8-ab35-5649348dad67.png",
+    "cell": [
+      0,
+      1
+    ]
+  },
+  "red_teen_fetch_drop": {
+    "ball": [
+      0.15062001887583887,
+      0.04223468959731547
+    ],
+    "radius": 0.04163171140939597,
+    "source": "exec-72ecea36-aadd-46c8-ab35-5649348dad67.png",
+    "cell": [
+      3,
+      1
+    ]
+  },
+  "red_fetch_pickup": {
+    "ball": [
+      0.2655719598642172,
+      0.03587697184504801
+    ],
+    "radius": 0.037159295127795526,
+    "source": "exec-72ecea36-aadd-46c8-ab35-5649348dad67.png",
+    "cell": [
+      0,
+      2
+    ]
+  },
+  "red_fetch_drop": {
+    "ball": [
+      0.18143782448083068,
+      0.036731854033546396
+    ],
+    "radius": 0.03963658146964856,
+    "source": "exec-72ecea36-aadd-46c8-ab35-5649348dad67.png",
+    "cell": [
+      3,
+      2
+    ]
+  },
+  "yellow_puppy_fetch_pickup": {
+    "ball": [
+      0.22898625753012047,
+      0.039086031626506035
+    ],
+    "radius": 0.03889777861445783,
+    "source": "exec-7afb779e-6088-4669-9e40-b0affe6a8b48.png",
+    "cell": [
+      0,
+      0
+    ]
+  },
+  "yellow_puppy_fetch_drop": {
+    "ball": [
+      0.15048475150602414,
+      0.03889777861445787
+    ],
+    "radius": 0.04158038403614458,
+    "source": "exec-7afb779e-6088-4669-9e40-b0affe6a8b48.png",
+    "cell": [
+      3,
+      0
+    ]
+  },
+  "yellow_teen_fetch_pickup": {
+    "ball": [
+      0.243896484375,
+      0.03668212890625
+    ],
+    "radius": 0.036529541015625,
+    "source": "exec-7afb779e-6088-4669-9e40-b0affe6a8b48.png",
+    "cell": [
+      0,
+      1
+    ]
+  },
+  "yellow_teen_fetch_drop": {
+    "ball": [
+      0.15869140625,
+      0.0404052734375
+    ],
+    "radius": 0.03973388671875,
+    "source": "exec-7afb779e-6088-4669-9e40-b0affe6a8b48.png",
+    "cell": [
+      3,
+      1
+    ]
+  },
+  "yellow_fetch_pickup": {
+    "ball": [
+      0.2957308616863905,
+      0.03301243528106512
+    ],
+    "radius": 0.033263799001479286,
+    "source": "exec-7afb779e-6088-4669-9e40-b0affe6a8b48.png",
+    "cell": [
+      0,
+      2
+    ]
+  },
+  "yellow_fetch_drop": {
+    "ball": [
+      0.20124121671597628,
+      0.034751756656804855
+    ],
+    "radius": 0.03670488165680473,
+    "source": "exec-7afb779e-6088-4669-9e40-b0affe6a8b48.png",
+    "cell": [
+      3,
+      2
+    ]
+  },
+  "blue_puppy_fetch_turnquarter": {
+    "ball": [
+      0.2421875,
+      0.359375
+    ],
+    "radius": 0.038690082097457626,
+    "source": "blue.png",
+    "cell": [
+      0,
+      0
+    ]
+  },
+  "blue_puppy_fetch_turnfront": {
+    "ball": [
+      0.07421875,
+      0.359375
+    ],
+    "radius": 0.038690082097457626,
+    "source": "blue.png",
+    "cell": [
+      1,
+      0
+    ]
+  },
+  "blue_puppy_fetch_run0": {
+    "ball": [
+      0.26171875,
+      0.373046875
+    ],
+    "radius": 0.038690082097457626,
+    "source": "blue.png",
+    "cell": [
+      2,
+      0
+    ]
+  },
+  "blue_puppy_fetch_run1": {
+    "ball": [
+      0.2421875,
+      0.359375
+    ],
+    "radius": 0.038690082097457626,
+    "source": "blue.png",
+    "cell": [
+      3,
+      0
+    ]
+  },
+  "blue_puppy_fetch_run2": {
+    "ball": [
+      0.27734375,
+      0.32421875
+    ],
+    "radius": 0.038690082097457626,
+    "source": "blue.png",
+    "cell": [
+      4,
+      0
+    ]
+  },
+  "blue_puppy_fetch_run3": {
+    "ball": [
+      0.251953125,
+      0.3515625
+    ],
+    "radius": 0.038690082097457626,
+    "source": "blue.png",
+    "cell": [
+      5,
+      0
+    ]
+  },
+  "blue_teen_fetch_turnquarter": {
+    "ball": [
+      0.28515625,
+      0.46875
+    ],
+    "radius": 0.035628255208333334,
+    "source": "blue.png",
+    "cell": [
+      0,
+      1
+    ]
+  },
+  "blue_teen_fetch_turnfront": {
+    "ball": [
+      0.05859375,
+      0.453125
+    ],
+    "radius": 0.035628255208333334,
+    "source": "blue.png",
+    "cell": [
+      1,
+      1
+    ]
+  },
+  "blue_teen_fetch_run0": {
+    "ball": [
+      0.3046875,
+      0.46484375
+    ],
+    "radius": 0.035628255208333334,
+    "source": "blue.png",
+    "cell": [
+      2,
+      1
+    ]
+  },
+  "blue_teen_fetch_run1": {
+    "ball": [
+      0.26953125,
+      0.43359375
+    ],
+    "radius": 0.035628255208333334,
+    "source": "blue.png",
+    "cell": [
+      3,
+      1
+    ]
+  },
+  "blue_teen_fetch_run2": {
+    "ball": [
+      0.3125,
+      0.3984375
+    ],
+    "radius": 0.035628255208333334,
+    "source": "blue.png",
+    "cell": [
+      4,
+      1
+    ]
+  },
+  "blue_teen_fetch_run3": {
+    "ball": [
+      0.28515625,
+      0.4453125
+    ],
+    "radius": 0.035628255208333334,
+    "source": "blue.png",
+    "cell": [
+      5,
+      1
+    ]
+  },
+  "blue_fetch_turnquarter": {
+    "ball": [
+      0.30078125,
+      0.515625
+    ],
+    "radius": 0.03229130697513812,
+    "source": "blue.png",
+    "cell": [
+      0,
+      2
+    ]
+  },
+  "blue_fetch_turnfront": {
+    "ball": [
+      0.0546875,
+      0.46484375
+    ],
+    "radius": 0.03229130697513812,
+    "source": "blue.png",
+    "cell": [
+      1,
+      2
+    ]
+  },
+  "blue_fetch_run0": {
+    "ball": [
+      0.33984375,
+      0.48828125
+    ],
+    "radius": 0.03229130697513812,
+    "source": "blue.png",
+    "cell": [
+      2,
+      2
+    ]
+  },
+  "blue_fetch_run1": {
+    "ball": [
+      0.29296875,
+      0.453125
+    ],
+    "radius": 0.03229130697513812,
+    "source": "blue.png",
+    "cell": [
+      3,
+      2
+    ]
+  },
+  "blue_fetch_run2": {
+    "ball": [
+      0.34765625,
+      0.41796875
+    ],
+    "radius": 0.03229130697513812,
+    "source": "blue.png",
+    "cell": [
+      4,
+      2
+    ]
+  },
+  "blue_fetch_run3": {
+    "ball": [
+      0.3046875,
+      0.46875
+    ],
+    "radius": 0.03229130697513812,
+    "source": "blue.png",
+    "cell": [
+      5,
+      2
+    ]
+  },
+  "red_puppy_fetch_turnquarter": {
+    "ball": [
+      0.2421875,
+      0.328125
+    ],
+    "radius": 0.03696609555984556,
+    "source": "red.png",
+    "cell": [
+      0,
+      0
+    ]
+  },
+  "red_puppy_fetch_turnfront": {
+    "ball": [
+      0.06640625,
+      0.4375
+    ],
+    "radius": 0.03696609555984556,
+    "source": "red.png",
+    "cell": [
+      1,
+      0
+    ]
+  },
+  "red_puppy_fetch_run0": {
+    "ball": [
+      0.25,
+      0.302734375
+    ],
+    "radius": 0.03696609555984556,
+    "source": "red.png",
+    "cell": [
+      2,
+      0
+    ]
+  },
+  "red_puppy_fetch_run1": {
+    "ball": [
+      0.234375,
+      0.30859375
+    ],
+    "radius": 0.03696609555984556,
+    "source": "red.png",
+    "cell": [
+      3,
+      0
+    ]
+  },
+  "red_puppy_fetch_run2": {
+    "ball": [
+      0.27734375,
+      0.296875
+    ],
+    "radius": 0.03696609555984556,
+    "source": "red.png",
+    "cell": [
+      4,
+      0
+    ]
+  },
+  "red_puppy_fetch_run3": {
+    "ball": [
+      0.23828125,
+      0.30859375
+    ],
+    "radius": 0.03696609555984556,
+    "source": "red.png",
+    "cell": [
+      5,
+      0
+    ]
+  },
+  "red_teen_fetch_turnquarter": {
+    "ball": [
+      0.30859375,
+      0.4453125
+    ],
+    "radius": 0.03512675650167785,
+    "source": "red.png",
+    "cell": [
+      0,
+      1
+    ]
+  },
+  "red_teen_fetch_turnfront": {
+    "ball": [
+      0.07421875,
+      0.470703125
+    ],
+    "radius": 0.03512675650167785,
+    "source": "red.png",
+    "cell": [
+      1,
+      1
+    ]
+  },
+  "red_teen_fetch_run0": {
+    "ball": [
+      0.32421875,
+      0.41796875
+    ],
+    "radius": 0.03512675650167785,
+    "source": "red.png",
+    "cell": [
+      2,
+      1
+    ]
+  },
+  "red_teen_fetch_run1": {
+    "ball": [
+      0.3203125,
+      0.42578125
+    ],
+    "radius": 0.03512675650167785,
+    "source": "red.png",
+    "cell": [
+      3,
+      1
+    ]
+  },
+  "red_teen_fetch_run2": {
+    "ball": [
+      0.3515625,
+      0.40234375
+    ],
+    "radius": 0.03512675650167785,
+    "source": "red.png",
+    "cell": [
+      4,
+      1
+    ]
+  },
+  "red_teen_fetch_run3": {
+    "ball": [
+      0.30078125,
+      0.40625
+    ],
+    "radius": 0.03512675650167785,
+    "source": "red.png",
+    "cell": [
+      5,
+      1
+    ]
+  },
+  "red_fetch_turnquarter": {
+    "ball": [
+      0.33203125,
+      0.4921875
+    ],
+    "radius": 0.03344336561501597,
+    "source": "red.png",
+    "cell": [
+      0,
+      2
+    ]
+  },
+  "red_fetch_turnfront": {
+    "ball": [
+      0.07421875,
+      0.4609375
+    ],
+    "radius": 0.03344336561501597,
+    "source": "red.png",
+    "cell": [
+      1,
+      2
+    ]
+  },
+  "red_fetch_run0": {
+    "ball": [
+      0.359375,
+      0.44140625
+    ],
+    "radius": 0.03344336561501597,
+    "source": "red.png",
+    "cell": [
+      2,
+      2
+    ]
+  },
+  "red_fetch_run1": {
+    "ball": [
+      0.3359375,
+      0.46484375
+    ],
+    "radius": 0.03344336561501597,
+    "source": "red.png",
+    "cell": [
+      3,
+      2
+    ]
+  },
+  "red_fetch_run2": {
+    "ball": [
+      0.3671875,
+      0.421875
+    ],
+    "radius": 0.03344336561501597,
+    "source": "red.png",
+    "cell": [
+      4,
+      2
+    ]
+  },
+  "red_fetch_run3": {
+    "ball": [
+      0.3203125,
+      0.4296875
+    ],
+    "radius": 0.03344336561501597,
+    "source": "red.png",
+    "cell": [
+      5,
+      2
+    ]
+  },
+  "yellow_puppy_fetch_turnquarter": {
+    "ball": [
+      0.265625,
+      0.34375
+    ],
+    "radius": 0.03487387048192771,
+    "source": "yellow.png",
+    "cell": [
+      0,
+      0
+    ]
+  },
+  "yellow_puppy_fetch_turnfront": {
+    "ball": [
+      0.04296875,
+      0.3125
+    ],
+    "radius": 0.03487387048192771,
+    "source": "yellow.png",
+    "cell": [
+      1,
+      0
+    ]
+  },
+  "yellow_puppy_fetch_run0": {
+    "ball": [
+      0.30078125,
+      0.34765625
+    ],
+    "radius": 0.03487387048192771,
+    "source": "yellow.png",
+    "cell": [
+      2,
+      0
+    ]
+  },
+  "yellow_puppy_fetch_run1": {
+    "ball": [
+      0.28125,
+      0.34765625
+    ],
+    "radius": 0.03487387048192771,
+    "source": "yellow.png",
+    "cell": [
+      3,
+      0
+    ]
+  },
+  "yellow_puppy_fetch_run2": {
+    "ball": [
+      0.296875,
+      0.33203125
+    ],
+    "radius": 0.03487387048192771,
+    "source": "yellow.png",
+    "cell": [
+      4,
+      0
+    ]
+  },
+  "yellow_puppy_fetch_run3": {
+    "ball": [
+      0.2578125,
+      0.33203125
+    ],
+    "radius": 0.03487387048192771,
+    "source": "yellow.png",
+    "cell": [
+      5,
+      0
+    ]
+  },
+  "yellow_teen_fetch_turnquarter": {
+    "ball": [
+      0.26953125,
+      0.46875
+    ],
+    "radius": 0.0333251953125,
+    "source": "yellow.png",
+    "cell": [
+      0,
+      1
+    ]
+  },
+  "yellow_teen_fetch_turnfront": {
+    "ball": [
+      0.04296875,
+      0.43359375
+    ],
+    "radius": 0.0333251953125,
+    "source": "yellow.png",
+    "cell": [
+      1,
+      1
+    ]
+  },
+  "yellow_teen_fetch_run0": {
+    "ball": [
+      0.3125,
+      0.4609375
+    ],
+    "radius": 0.0333251953125,
+    "source": "yellow.png",
+    "cell": [
+      2,
+      1
+    ]
+  },
+  "yellow_teen_fetch_run1": {
+    "ball": [
+      0.2890625,
+      0.42578125
+    ],
+    "radius": 0.0333251953125,
+    "source": "yellow.png",
+    "cell": [
+      3,
+      1
+    ]
+  },
+  "yellow_teen_fetch_run2": {
+    "ball": [
+      0.32421875,
+      0.40625
+    ],
+    "radius": 0.0333251953125,
+    "source": "yellow.png",
+    "cell": [
+      4,
+      1
+    ]
+  },
+  "yellow_teen_fetch_run3": {
+    "ball": [
+      0.28515625,
+      0.45703125
+    ],
+    "radius": 0.0333251953125,
+    "source": "yellow.png",
+    "cell": [
+      5,
+      1
+    ]
+  },
+  "yellow_fetch_turnquarter": {
+    "ball": [
+      0.3046875,
+      0.50390625
+    ],
+    "radius": 0.04989569850221893,
+    "source": "yellow.png",
+    "cell": [
+      0,
+      2
+    ]
+  },
+  "yellow_fetch_turnfront": {
+    "ball": [
+      0.04296875,
+      0.43359375
+    ],
+    "radius": 0.04989569850221893,
+    "source": "yellow.png",
+    "cell": [
+      1,
+      2
+    ]
+  },
+  "yellow_fetch_run0": {
+    "ball": [
+      0.3203125,
+      0.44921875
+    ],
+    "radius": 0.04989569850221893,
+    "source": "yellow.png",
+    "cell": [
+      2,
+      2
+    ]
+  },
+  "yellow_fetch_run1": {
+    "ball": [
+      0.310546875,
+      0.4296875
+    ],
+    "radius": 0.04989569850221893,
+    "source": "yellow.png",
+    "cell": [
+      3,
+      2
+    ]
+  },
+  "yellow_fetch_run2": {
+    "ball": [
+      0.34765625,
+      0.41015625
+    ],
+    "radius": 0.04989569850221893,
+    "source": "yellow.png",
+    "cell": [
+      4,
+      2
+    ]
+  },
+  "yellow_fetch_run3": {
+    "ball": [
+      0.30078125,
+      0.484375
+    ],
+    "radius": 0.04989569850221893,
+    "source": "yellow.png",
+    "cell": [
+      5,
+      2
+    ]
+  }
+}

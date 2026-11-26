@@ -1,0 +1,56 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Using the provided atlas ONLY as character/style reference, create NEW animation sprites for the SAME Xiaohan cream white Samoyed dog. Match delicate hand-painted warm storybook fur, upright triangular ears, gentle eyes and black nose, curled fluffy tail, outfit, puppy/teen/adult identities exactly. REAL TRANSPARENT background, no ground shadow or text. Output a tall atlas with EXACTLY THREE equal columns and SIX equal rows, 18 separate full body drawings. Clear wide transparent gutters; every sprite wholly within its cell. Columns: puppy, adolescent, adult as reference. Same body scale and ground baseline within each column in all six rows. Small muted orange fetch ball held firmly in mouth under nose in ALL cells, never floating, no extra ball.\nROW1: TURN FRONT RIGHT: head raised after picking up, body seen three-quarter toward camera facing slightly RIGHT, forepaws doing a small pivot step; all paws grounded except one turning forepaw.\nROW2: TURN FRONT: truly straight FRONT view, symmetrical face and nose centered, chest facing camera, hindquarters behind chest, tail behind body. A small crossing forepaw pivot step. This is essential for a 180 degree turnaround, NOT another right side view.\nROW3: RUN CONTACT: three-quarter facing RIGHT, near foreleg stretched forward touching ground, opposite hindleg back, other diagonal pair lifting. Ball held steady.\nROW4: RUN DOWN: same right-facing camera and exact head/body proportions, foreleg bearing weight below chest, shoulder slightly lower, hindleg passing under belly; grounded springy trot.\nROW5: RUN PASS: same view, opposite foreleg now coming forward while near foreleg swings backward, opposite hindleg extends back, feet clear and distinct.\nROW6: RUN UP: same view, push-off and collected legs under body, body slightly lifted, then leads naturally back into row3. No exaggerated flying leap.\nRows3-6 must be FOUR VISIBLY DIFFERENT sequential leg configurations of one anatomically credible relaxed dog trot, NOT repeated identical walking poses. Same face, ears, tail and ball geometry. Two front and two hind legs only. No human, no scenery, no props except held ball, no motion lines, no borders. Preserve coat costume in every frame. Large high resolution portrait sheet.",
+  "files": {
+    "blue": "C:/Users/txing/.codex/generated_images/01a1c842-85b2-7933-8710-1e80f361c5f3/exec-a0c4b93c-6735-40af-b792-11679c309b59.png",
+    "red": "C:/Users/txing/.codex/generated_images/01a1c842-85b2-7933-8710-1e80f361c5f3/exec-520231e0-b4ab-41c4-b7f8-d549db42a893.png",
+    "yellow": "C:/Users/txing/.codex/generated_images/01a1c842-85b2-7933-8710-1e80f361c5f3/exec-f899813d-4919-4905-9dc6-2b4b466d26f6.png"
+  },
+  "sources": "work/fetch-turn-sources",
+  "extraction": "work/build_fetch_turn.py",
+  "layout": "3 age columns; rows turnquarter, turnfront, run0, run1, run2, run3",
+  "normalization": {
+    "blue_puppy": {
+      "height": 161,
+      "radius": 0.038690082097457626
+    },
+    "blue_teen": {
+      "height": 180,
+      "radius": 0.035628255208333334
+    },
+    "blue": {
+      "height": 189,
+      "radius": 0.03229130697513812
+    },
+    "red_puppy": {
+      "height": 161,
+      "radius": 0.03696609555984556
+    },
+    "red_teen": {
+      "height": 186,
+      "radius": 0.03512675650167785
+    },
+    "red": {
+      "height": 188,
+      "radius": 0.03344336561501597
+    },
+    "yellow_puppy": {
+      "height": 164,
+      "radius": 0.03487387048192771
+    },
+    "yellow_teen": {
+      "height": 188,
+      "radius": 0.0333251953125
+    },
+    "yellow": {
+      "height": 186,
+      "radius": 0.04989569850221893
+    }
+  },
+  "costumes": {
+    "blue": "blue chest harness with round gold badge",
+    "red": "red triangular neckerchief only",
+    "yellow": "warm yellow vest with blue edging"
+  },
+  "transparency_edit_prompt": "Remove ONLY the pale gray/white background from this 3 column 6 row character animation atlas. Make every background pixel truly fully transparent alpha=0, including ALL gutters between sprites. Preserve all 18 dog drawings, white fur and costumes exactly, same arrangement, pose, size, color, ball, anatomy and no crop. Transparent background cutout asset. No added elements. Output the same 3x6 atlas with clean transparency and fully intact white fur silhouettes. The white gray surrounding each dog is BACKGROUND and must disappear; preserve the dog's cream-white fur."
+}

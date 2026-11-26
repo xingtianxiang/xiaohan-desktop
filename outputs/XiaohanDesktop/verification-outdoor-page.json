@@ -1,0 +1,94 @@
+[
+  {
+    "name": "outdoor_icon_is_mapped",
+    "passed": true
+  },
+  {
+    "name": "outdoor_icon_opens_cards",
+    "passed": true
+  },
+  {
+    "name": "two_destination_previews",
+    "passed": true
+  },
+  {
+    "name": "picker_inside_screen",
+    "passed": true
+  },
+  {
+    "name": "card_enters_park_and_walks",
+    "passed": true
+  },
+  {
+    "name": "scene_has_direct_controls",
+    "passed": true
+  },
+  {
+    "name": "scene_has_no_hover_panel",
+    "passed": true
+  },
+  {
+    "name": "stop_walk_without_reward",
+    "passed": true
+  },
+  {
+    "name": "controls_do_not_drag_window",
+    "passed": true
+  },
+  {
+    "name": "change_scenery_opens_picker",
+    "passed": true
+  },
+  {
+    "name": "snow_choice_saved",
+    "passed": true
+  },
+  {
+    "name": "ball_button_opens_ready_in_same_scene",
+    "passed": true
+  },
+  {
+    "name": "fetch_still_charges",
+    "passed": true
+  },
+  {
+    "name": "fetch_still_releases",
+    "passed": true
+  },
+  {
+    "name": "switching_cancels_without_reward",
+    "passed": true
+  },
+  {
+    "name": "more_control_opens_panel",
+    "passed": true
+  },
+  {
+    "name": "pause_blocks_walk",
+    "passed": true
+  },
+  {
+    "name": "walk_cooldown_still_applies",
+    "passed": true
+  },
+  {
+    "name": "home_restores_pet_and_cancels_walk",
+    "passed": true
+  },
+  {
+    "name": "desktop_hover_controls_remain",
+    "passed": true
+  },
+  {
+    "name": "escape_closes_picker",
+    "passed": true
+  },
+  {
+    "name": "care_action_not_interrupted_by_travel",
+    "passed": true
+  },
+  {
+    "name": "escape_returns_from_outdoor",
+    "passed": true
+  }
+]

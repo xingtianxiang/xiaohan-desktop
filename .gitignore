@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+
+# 个人存档与运行锁，不进仓库
+outputs/XiaohanDesktop/data/
+*.tmp
+*.lock
+
+# 由 work/export_mac_source.py 生成的 Mac 构建导出，快照保存在 source.zip
+outputs/XiaohanMacBuild/
+
+# 分享包、预览视频与动图、效果图和个人照片，只留在本地
+outputs/*.zip
+outputs/*.mp4
+outputs/*.gif
+outputs/*.png
+outputs/*.jpg
+outputs/*.lnk
+outputs/小汉-扔球更新/
+outputs/releases/
+
+# 窗口验证截图、恢复包和云端下载副本（约 218 MB）
+work/desktop-qa/
+
+# 原始照片与图像生成原图，重新导出素材时在本地使用
+work/xiaohan-original.png
+work/typing-preview/
+work/typing-two-keys/
+work/*-sources/
+
+# 构建缓存
+build/
+dist/
+work/portable-build/

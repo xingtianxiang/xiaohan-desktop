@@ -1,0 +1,16 @@
+# 小汉火光样式对比
+
+生成方式：内置 image_gen；状态：供用户选型的静态预览，尚未替换程序素材。
+
+参照：XiaohanDesktop/assets/blue_type2.png。输出：xiaohan-fire-styles.png。
+
+## 完整提示词
+
+Create ONE polished selection comparison board for six different flame VFX art directions for a desktop pet named 小汉. Use the reference image as the EXACT pet identity/style and pose reference. The board is a SINGLE landscape image with an immaculate 3-column by 2-row grid of six equal spacious panels. Warm pale gray solid backdrop throughout, no app interface, no UI chrome. Small readable dark teal titles above each panel. Keep all six dogs IDENTICAL in scale, face, fur, upright ears, blue harness with round gold badge, seated posture, paw pose, and the tiny keyboard with ONLY TWO oversized keys (one blue, one cream). Preserve the delicate original hand-painted white Samoyed appearance and gentle happy face, not a new breed or plush toy. Full body and both keycaps visible in every panel. The dog must remain the hero; flames behind and around sides, never obscure face or paws, no injury, smoke, dark aggressive face or fire touching fur. Do not invent clothes.
+Top left label "A  柔和暖焰": soft painterly honey-gold and apricot flame ribbons, few broad rounded tips, subtle airy glow. Calm warm bonfire-like flow, asymmetrical tips, very gentle. NOT a symmetrical wreath, no enclosing ring.
+Top middle label "B  动漫烈焰": vibrant orange-red layered cel-painted flame tongues, energetic upward directional tips, clean stylized silhouettes, yellow inner core with red-orange outer edges, a few tiny sparks, dynamic anime power-up feel but sweet dog expression unchanged. NOT identical to A; crisper angular and taller.
+Top right label "C  蓝色流焰": fluid blue/cyan magical flames, deep blue outer tongues, turquoise middle and pale aqua inner glows, elegant tapering wave-like flame curves rising behind shoulders, translucent airy appearance.
+Bottom left label "D  星火余烬": very restrained small orange flame wisps only beside the base with a trail of tiny rising amber embers and warm luminous dust behind shoulders. Lots of empty space. NO giant fire curtain, much lighter and less visually intrusive than other options.
+Bottom middle label "E  水墨焰纹": traditional flowing ink-and-brush flame strokes in vermilion and gold, expressive sweeping tapered brushwork, a couple of detached calligraphic flame curls, elegant illustrated magical fire. Not black smoke. Distinct brushmark texture rather than realistic fire or solid gradients.
+Bottom right label "F  彩虹能量焰": soft fantasy aurora-like flame ribbons shifting lavender, pink, peach and aqua, flowing translucent tongues with subtle starry sparkles, playful magical rather than neon nightclub. Keep white dog color unchanged.
+All variants show the MEDIUM-HIGH typing speed intensity so their shapes are easy to compare, with heads and ear tips remaining unobstructed. VFX occupy at most the width of the dog's body plus about 20 percent and end near the shoulders, not a huge background filling each cell. Clear difference in silhouette, texture and palette, not six recolors of one effect. Fine illustration rendering, beautiful clear small-scale legibility. Equal backgrounds and same frontal camera in every panel. Exactly six pets total, no extra mini thumbnails, no duplicate letters, no legend/footer/title beyond the six panel labels.

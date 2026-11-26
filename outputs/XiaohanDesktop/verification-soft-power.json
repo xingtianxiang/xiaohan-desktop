@@ -1,0 +1,54 @@
+[
+  {
+    "name": "press_starts_charge",
+    "passed": true
+  },
+  {
+    "name": "meter_fits_scene_0",
+    "passed": true
+  },
+  {
+    "name": "power_readout_0",
+    "passed": true
+  },
+  {
+    "name": "meter_fits_scene_25",
+    "passed": true
+  },
+  {
+    "name": "power_readout_25",
+    "passed": true
+  },
+  {
+    "name": "meter_fits_scene_62",
+    "passed": true
+  },
+  {
+    "name": "power_readout_62",
+    "passed": true
+  },
+  {
+    "name": "meter_fits_scene_100",
+    "passed": true
+  },
+  {
+    "name": "power_readout_100",
+    "passed": true
+  },
+  {
+    "name": "release_starts_fetch",
+    "passed": true
+  },
+  {
+    "name": "cancel_keeps_ready",
+    "passed": true
+  },
+  {
+    "name": "snow_uses_same_overlay",
+    "passed": true
+  },
+  {
+    "name": "close_returns_pet",
+    "passed": true
+  }
+]

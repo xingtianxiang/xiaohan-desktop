@@ -1,0 +1,30 @@
+[
+  {
+    "name": "scene_press_starts_charge",
+    "passed": true
+  },
+  {
+    "name": "vertical_power_beside_trajectory",
+    "passed": true
+  },
+  {
+    "name": "compact_scene_without_dial",
+    "passed": true
+  },
+  {
+    "name": "single_hint_fits_footer",
+    "passed": true
+  },
+  {
+    "name": "release_starts_fetch",
+    "passed": true
+  },
+  {
+    "name": "escape_cancels_charge",
+    "passed": true
+  },
+  {
+    "name": "close_returns_pet",
+    "passed": true
+  }
+]

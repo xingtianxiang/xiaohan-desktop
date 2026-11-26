@@ -1,0 +1,274 @@
+[
+  {
+    "name": "open_fetch_preserves_walk",
+    "passed": true
+  },
+  {
+    "name": "mouse_press_starts_charge",
+    "passed": true
+  },
+  {
+    "name": "walking_advances_while_charging",
+    "passed": true
+  },
+  {
+    "name": "release_chases_from_current_position",
+    "passed": true
+  },
+  {
+    "name": "walk_progress_preserved_during_chase",
+    "passed": true
+  },
+  {
+    "name": "blue_0_0.48_pickup_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_0_0.54_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_0_0.58_turnfront_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_0_0.62_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_0_0.7_run_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_0_0.94_drop_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_0_0.48_pickup_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_0_0.54_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_0_0.58_turnfront_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_0_0.62_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_0_0.7_run_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_0_0.94_drop_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_0.48_pickup_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_0.54_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_0.58_turnfront_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_0.62_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_0.7_run_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_0.94_drop_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_1_0.48_pickup_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_1_0.54_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_1_0.58_turnfront_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_1_0.62_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_1_0.7_run_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_1_0.94_drop_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_1_0.48_pickup_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_1_0.54_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_1_0.58_turnfront_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_1_0.62_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_1_0.7_run_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_1_0.94_drop_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_0.48_pickup_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_0.54_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_0.58_turnfront_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_0.62_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_0.7_run_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_0.94_drop_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_2_0.48_pickup_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_2_0.54_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_2_0.58_turnfront_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_2_0.62_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_2_0.7_run_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "blue_2_0.94_drop_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_2_0.48_pickup_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_2_0.54_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_2_0.58_turnfront_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_2_0.62_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_2_0.7_run_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "red_2_0.94_drop_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_0.48_pickup_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_0.54_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_0.58_turnfront_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_0.62_turnquarter_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_0.7_run_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_0.94_drop_uses_new_art",
+    "passed": true
+  },
+  {
+    "name": "first_return_awards_once_and_resumes_walk",
+    "passed": true
+  },
+  {
+    "name": "resume_retains_elapsed_walk",
+    "passed": true
+  },
+  {
+    "name": "second_throw_available_immediately",
+    "passed": true
+  },
+  {
+    "name": "second_release_starts_ball",
+    "passed": true
+  },
+  {
+    "name": "second_return_awards_once_and_resumes_walk",
+    "passed": true
+  },
+  {
+    "name": "third_charge_without_cooldown",
+    "passed": true
+  },
+  {
+    "name": "cancel_charge_keeps_walk_and_rewards",
+    "passed": true
+  },
+  {
+    "name": "exhaustion_still_blocks_throw",
+    "passed": true
+  },
+  {
+    "name": "scene_exit_cancels_without_reward",
+    "passed": true
+  }
+]

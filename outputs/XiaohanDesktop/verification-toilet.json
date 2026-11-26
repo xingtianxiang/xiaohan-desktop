@@ -1,0 +1,110 @@
+[
+  {
+    "name": "hover_contains_nine_care_icons",
+    "passed": true
+  },
+  {
+    "name": "nine_icons_fit",
+    "passed": true
+  },
+  {
+    "name": "toilet_icon_starts_action",
+    "passed": true
+  },
+  {
+    "name": "no_early_timer_reset",
+    "passed": true
+  },
+  {
+    "name": "privacy_screen_visible",
+    "passed": true
+  },
+  {
+    "name": "size_change_blocked_during_toilet",
+    "passed": true
+  },
+  {
+    "name": "cancel_preserves_need_and_reward",
+    "passed": true
+  },
+  {
+    "name": "more_contains_toilet_status",
+    "passed": true
+  },
+  {
+    "name": "more_fits_screen",
+    "passed": true
+  },
+  {
+    "name": "more_toilet_button_starts_action",
+    "passed": true
+  },
+  {
+    "name": "completion_relaxes_and_resets_timer",
+    "passed": true
+  },
+  {
+    "name": "completion_awarded_once",
+    "passed": true
+  },
+  {
+    "name": "immediate_repeat_not_needed",
+    "passed": true
+  },
+  {
+    "name": "reset_persists",
+    "passed": true
+  },
+  {
+    "name": "pause_stops_toilet_clock",
+    "passed": true
+  },
+  {
+    "name": "urgent_blocks_new_ball",
+    "passed": true
+  },
+  {
+    "name": "blue_0_restless_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_1_restless_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_2_restless_pose",
+    "passed": true
+  },
+  {
+    "name": "red_0_restless_pose",
+    "passed": true
+  },
+  {
+    "name": "red_1_restless_pose",
+    "passed": true
+  },
+  {
+    "name": "red_2_restless_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_restless_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_restless_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_restless_pose",
+    "passed": true
+  },
+  {
+    "name": "outdoor_privacy_screen",
+    "passed": true
+  },
+  {
+    "name": "wardrobe_stays_on_screen",
+    "passed": true
+  }
+]

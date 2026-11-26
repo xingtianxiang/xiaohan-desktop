@@ -1,0 +1,190 @@
+[
+  {
+    "name": "blue_0_food_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_0_water_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_0_energy_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_1_food_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_1_water_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_1_energy_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_2_food_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_2_water_pose",
+    "passed": true
+  },
+  {
+    "name": "blue_2_energy_pose",
+    "passed": true
+  },
+  {
+    "name": "red_0_food_pose",
+    "passed": true
+  },
+  {
+    "name": "red_0_water_pose",
+    "passed": true
+  },
+  {
+    "name": "red_0_energy_pose",
+    "passed": true
+  },
+  {
+    "name": "red_1_food_pose",
+    "passed": true
+  },
+  {
+    "name": "red_1_water_pose",
+    "passed": true
+  },
+  {
+    "name": "red_1_energy_pose",
+    "passed": true
+  },
+  {
+    "name": "red_2_food_pose",
+    "passed": true
+  },
+  {
+    "name": "red_2_water_pose",
+    "passed": true
+  },
+  {
+    "name": "red_2_energy_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_food_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_water_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_0_energy_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_food_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_water_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_1_energy_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_food_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_water_pose",
+    "passed": true
+  },
+  {
+    "name": "yellow_2_energy_pose",
+    "passed": true
+  },
+  {
+    "name": "desktop_weak_hint_visible",
+    "passed": true
+  },
+  {
+    "name": "care_controls_remain_available",
+    "passed": true
+  },
+  {
+    "name": "panel_marks_all_low_needs",
+    "passed": true
+  },
+  {
+    "name": "walk_blocked_when_weak",
+    "passed": true
+  },
+  {
+    "name": "toy_blocked_when_weak",
+    "passed": true
+  },
+  {
+    "name": "ball_charge_blocked_when_weak",
+    "passed": true
+  },
+  {
+    "name": "weak_pet_rests_in_fetch_waiting",
+    "passed": true
+  },
+  {
+    "name": "feed_can_start",
+    "passed": true
+  },
+  {
+    "name": "feed_animation_has_priority",
+    "passed": true
+  },
+  {
+    "name": "feed_clears_matching_need",
+    "passed": true
+  },
+  {
+    "name": "water_can_start",
+    "passed": true
+  },
+  {
+    "name": "water_animation_has_priority",
+    "passed": true
+  },
+  {
+    "name": "water_clears_matching_need",
+    "passed": true
+  },
+  {
+    "name": "sleep_can_start",
+    "passed": true
+  },
+  {
+    "name": "sleep_animation_has_priority",
+    "passed": true
+  },
+  {
+    "name": "sleep_clears_matching_need",
+    "passed": true
+  },
+  {
+    "name": "all_recovered_and_rewarded_once",
+    "passed": true
+  },
+  {
+    "name": "typing_resumes_after_recovery",
+    "passed": true
+  },
+  {
+    "name": "needs_persist_from_saved_values",
+    "passed": true
+  },
+  {
+    "name": "mild_hunger_allows_play",
+    "passed": true
+  }
+]

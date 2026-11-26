@@ -1,0 +1,187 @@
+[
+  {
+    "name": "no_client_window",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "display_name",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "raw_input_registered",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "hover_opens_icons",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "feed_started_from_icon",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "overlap_rejected",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "feed_completed",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "feed_cooldown",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "water_completed",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "wardrobe_saved",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "costume_in_action",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "cancel_no_reward",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "walking_pose",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "outdoor_composed_in_one_image",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "outdoor_returns_to_desktop",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "native_input_injected",
+    "passed": true,
+    "detail": "2"
+  },
+  {
+    "name": "native_synthetic_key_received",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "native_typing_rate_received",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "typing_pose_activated",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "typing_toggle_off",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "typing_returns_idle",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "pause_blocks_action",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "growth_and_reload",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "yellow_action",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "hover_leave_hides_icons",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "more_button_mapped",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "more_opens_compact_panel",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "more_inside_screen",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "more_fire_setting_saved",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "more_keyboard_setting_saved",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "more_pause_disables_actions",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "more_action_and_end",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "more_cancel_action",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "mouse_does_not_ignite",
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "typing_speed_changes_visible_fire_size",
+    "passed": true,
+    "detail": "{'slow': 145, 'fast': 204}"
+  },
+  {
+    "name": "age_outfit_actions_rendered",
+    "passed": true,
+    "detail": "54"
+  },
+  {
+    "name": "listener_stopped",
+    "passed": true,
+    "detail": ""
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "name": "initial_small_selected",
+    "passed": true
+  },
+  {
+    "name": "locked_stages_disabled",
+    "passed": true
+  },
+  {
+    "name": "locked_click_keeps_small",
+    "passed": true
+  },
+  {
+    "name": "progress_shows_remaining",
+    "passed": true
+  },
+  {
+    "name": "panel_fits_screen",
+    "passed": true
+  },
+  {
+    "name": "empty_progress_starts_at_zero",
+    "passed": true
+  },
+  {
+    "name": "fill_matches_elapsed_time",
+    "passed": true
+  },
+  {
+    "name": "remaining_time_shown",
+    "passed": true
+  },
+  {
+    "name": "not_prematurely_shown_as_full",
+    "passed": true
+  },
+  {
+    "name": "time_full_but_bond_still_required",
+    "passed": true
+  },
+  {
+    "name": "progress_tracks_unlock_not_selected_size",
+    "passed": true
+  },
+  {
+    "name": "time_tick_unlocks_without_action",
+    "passed": true
+  },
+  {
+    "name": "unlock_notice_visible",
+    "passed": true
+  },
+  {
+    "name": "unlock_saved",
+    "passed": true
+  },
+  {
+    "name": "select_medium_changes_render",
+    "passed": true
+  },
+  {
+    "name": "choice_saved",
+    "passed": true
+  },
+  {
+    "name": "adult_bond_gate_remains",
+    "passed": true
+  },
+  {
+    "name": "bond_completion_unlocks_adult",
+    "passed": true
+  },
+  {
+    "name": "select_large_changes_render",
+    "passed": true
+  },
+  {
+    "name": "busy_switch_is_disabled",
+    "passed": true
+  },
+  {
+    "name": "small_choice_survives_ticks",
+    "passed": true
+  },
+  {
+    "name": "reload_keeps_choice_and_unlocks",
+    "passed": true
+  },
+  {
+    "name": "all_sizes_selectable",
+    "passed": true
+  },
+  {
+    "name": "all_unlocked_shows_complete",
+    "passed": true
+  },
+  {
+    "name": "choice_applies_outdoors",
+    "passed": true
+  }
+]

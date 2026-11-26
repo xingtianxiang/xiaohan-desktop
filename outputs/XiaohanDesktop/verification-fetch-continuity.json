@@ -1,0 +1,123 @@
+{
+  "run": "https://github.com/xingtianxiang/xiaohan-desktop/actions/runs/43794365570",
+  "commit": "4ec25cf93279d4ab727cf12d7dad3ad21a3ba9cc",
+  "packages": {
+    "x64": {
+      "archive": "小汉-macOS-x86_64.zip",
+      "sha256": "908dd9bee2b9483a84c9a59b5b349429a841ae00e8958aadf2fbff2222820b1e",
+      "bytes": 37417278,
+      "architecture": "x86_64",
+      "build_macos": "15.7.9",
+      "python": "3.11.9",
+      "PyInstaller": "6.22.0",
+      "Pillow": "10.4.0",
+      "tk": {
+        "tcl": "8.6.13",
+        "tk": "8.6.13"
+      },
+      "notarized": false,
+      "source_sha256": {
+        "trip_view.py": "bbbbbe8724cf215111989e40e067ab0c4851d094c35a819fc399e170f9330182",
+        "package_check.py": "70bb999b29653f2849eaa77b00341a2f2521a06b8d4fe1230a21f2140a512501",
+        "work_break.py": "a955c5fe4b547b1439956a623b61b3110fab0b99fdea8d32b8caf6ca2aea169e",
+        "mac_check.py": "d6ab41c01f330c7e05d9e78899d1fbecb0aad74a92a8ebfde9a36bac8fba065a",
+        "outdoor.py": "eca6660ca5914f6ab176f39a8983ca5d96e064aec86e223017d1eccb5a73ad7c",
+        "desktop_platform.py": "3027de9987e1b9f9b00b677b67ea545bbfbae96ce8e7637953e28aa1231575a5",
+        "keyboard_activity.py": "9529bf591dd374b697274216695a510dbaf2d5eefd80483d47e64467747c0122",
+        "model.py": "bd86e330e062be2478d517a5d57892eeff6d3d0d075d09cb07c7087aa2b901c2",
+        "animation.py": "a77065786847c7820ccfc36b99c767c1340aef7b6ba91d3a24679fff81c7043a",
+        "app.py": "bea5de6db7b49008661d805423f1b97e65ea86c84d9d4b56d7646ed86d26bc58",
+        "more_panel.py": "0ed1d82ba63aae29822b2cfba6f4b8cdd6afd0c113f39aa278f13028d36a10b2",
+        "flame.py": "0a10572dd90da4c3ab839407693c91ffad5e5cde1a98bef0881119bc37dcd06a",
+        "throw_controls.py": "e193b57d927bb0f4a794a851f6f3fdca0690b49ddc3454e8ebb00666f9e1fe12",
+        "fetch_game.py": "d01815ea212d41efbf2194c2b8ef0aa912417c2cdc4655f83bf9fb81b63e79ee",
+        "mac_activity.py": "5c87e2107e83fadfc476a9a6690a1bf8c6b5f1e25b35414d184314e153cebf4c",
+        "smoke.py": "fe2d77e06373b29b73bc0fe5c169ee7ccb637f60cc22255909d4f979761c2a6d"
+      },
+      "verification": {
+        "launches": 2,
+        "checks_per_launch": 21,
+        "real_typing_verified": false,
+        "visual_human_review": false,
+        "default_save_outside_bundle": true
+      }
+    },
+    "arm64": {
+      "archive": "小汉-macOS-arm64.zip",
+      "sha256": "24d6d15d924eb2691942531bf95a5040138e6b3dd18c10d28be9af12812bbf64",
+      "bytes": 36487758,
+      "architecture": "arm64",
+      "build_macos": "15.8.2",
+      "python": "3.11.9",
+      "PyInstaller": "6.22.0",
+      "Pillow": "10.4.0",
+      "tk": {
+        "tcl": "8.6.13",
+        "tk": "8.6.13"
+      },
+      "notarized": false,
+      "source_sha256": {
+        "trip_view.py": "bbbbbe8724cf215111989e40e067ab0c4851d094c35a819fc399e170f9330182",
+        "package_check.py": "70bb999b29653f2849eaa77b00341a2f2521a06b8d4fe1230a21f2140a512501",
+        "work_break.py": "a955c5fe4b547b1439956a623b61b3110fab0b99fdea8d32b8caf6ca2aea169e",
+        "mac_check.py": "d6ab41c01f330c7e05d9e78899d1fbecb0aad74a92a8ebfde9a36bac8fba065a",
+        "outdoor.py": "eca6660ca5914f6ab176f39a8983ca5d96e064aec86e223017d1eccb5a73ad7c",
+        "desktop_platform.py": "3027de9987e1b9f9b00b677b67ea545bbfbae96ce8e7637953e28aa1231575a5",
+        "keyboard_activity.py": "9529bf591dd374b697274216695a510dbaf2d5eefd80483d47e64467747c0122",
+        "model.py": "bd86e330e062be2478d517a5d57892eeff6d3d0d075d09cb07c7087aa2b901c2",
+        "animation.py": "a77065786847c7820ccfc36b99c767c1340aef7b6ba91d3a24679fff81c7043a",
+        "app.py": "bea5de6db7b49008661d805423f1b97e65ea86c84d9d4b56d7646ed86d26bc58",
+        "more_panel.py": "0ed1d82ba63aae29822b2cfba6f4b8cdd6afd0c113f39aa278f13028d36a10b2",
+        "flame.py": "0a10572dd90da4c3ab839407693c91ffad5e5cde1a98bef0881119bc37dcd06a",
+        "throw_controls.py": "e193b57d927bb0f4a794a851f6f3fdca0690b49ddc3454e8ebb00666f9e1fe12",
+        "fetch_game.py": "d01815ea212d41efbf2194c2b8ef0aa912417c2cdc4655f83bf9fb81b63e79ee",
+        "mac_activity.py": "5c87e2107e83fadfc476a9a6690a1bf8c6b5f1e25b35414d184314e153cebf4c",
+        "smoke.py": "fe2d77e06373b29b73bc0fe5c169ee7ccb637f60cc22255909d4f979761c2a6d"
+      },
+      "verification": {
+        "launches": 2,
+        "checks_per_launch": 21,
+        "real_typing_verified": false,
+        "visual_human_review": false,
+        "default_save_outside_bundle": true
+      }
+    },
+    "windows": {
+      "archive": "小汉桌面宠物-Windows64.zip",
+      "bytes": 35970722,
+      "sha256": "080d4076961886f891e7d7c9e7b73f1ddd3f220e164aa2734ba50856b1b8e244",
+      "python": "3.11.5 (tags/v3.11.5:cce6ba9, Aug 24 2023, 14:38:34) [MSC v.1936 64 bit (AMD64)]",
+      "PyInstaller": "6.22.0",
+      "Pillow": "10.4.0",
+      "source_sha256": {
+        "animation.py": "a77065786847c7820ccfc36b99c767c1340aef7b6ba91d3a24679fff81c7043a",
+        "app.py": "bea5de6db7b49008661d805423f1b97e65ea86c84d9d4b56d7646ed86d26bc58",
+        "desktop_platform.py": "3027de9987e1b9f9b00b677b67ea545bbfbae96ce8e7637953e28aa1231575a5",
+        "fetch_game.py": "d01815ea212d41efbf2194c2b8ef0aa912417c2cdc4655f83bf9fb81b63e79ee",
+        "flame.py": "0a10572dd90da4c3ab839407693c91ffad5e5cde1a98bef0881119bc37dcd06a",
+        "keyboard_activity.py": "9529bf591dd374b697274216695a510dbaf2d5eefd80483d47e64467747c0122",
+        "mac_activity.py": "5c87e2107e83fadfc476a9a6690a1bf8c6b5f1e25b35414d184314e153cebf4c",
+        "mac_check.py": "d6ab41c01f330c7e05d9e78899d1fbecb0aad74a92a8ebfde9a36bac8fba065a",
+        "model.py": "bd86e330e062be2478d517a5d57892eeff6d3d0d075d09cb07c7087aa2b901c2",
+        "more_panel.py": "0ed1d82ba63aae29822b2cfba6f4b8cdd6afd0c113f39aa278f13028d36a10b2",
+        "outdoor.py": "eca6660ca5914f6ab176f39a8983ca5d96e064aec86e223017d1eccb5a73ad7c",
+        "package_check.py": "70bb999b29653f2849eaa77b00341a2f2521a06b8d4fe1230a21f2140a512501",
+        "smoke.py": "fe2d77e06373b29b73bc0fe5c169ee7ccb637f60cc22255909d4f979761c2a6d",
+        "throw_controls.py": "e193b57d927bb0f4a794a851f6f3fdca0690b49ddc3454e8ebb00666f9e1fe12",
+        "trip_view.py": "bbbbbe8724cf215111989e40e067ab0c4851d094c35a819fc399e170f9330182",
+        "work_break.py": "a955c5fe4b547b1439956a623b61b3110fab0b99fdea8d32b8caf6ca2aea169e"
+      },
+      "files": 1314,
+      "includes_user_save": false
+    }
+  },
+  "window_checks": 68,
+  "preview": "小汉-扔球动作对比.gif",
+  "render_comparison_ms": {
+    "frames": 251,
+    "prior_median": 7.34,
+    "updated_median": 4.28,
+    "prior_p95": 105.2,
+    "updated_p95": 10.85
+  }
+}

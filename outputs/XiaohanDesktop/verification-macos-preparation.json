@@ -1,0 +1,12 @@
+{
+  "source_python_syntax": "passed",
+  "upload_manifest": "passed",
+  "source_zip_crc": "passed",
+  "private_data_excluded": "passed",
+  "windows_release_unchanged": true,
+  "mac_build_executed": false,
+  "mac_tests_executed": false,
+  "unit_tests_passed": 51,
+  "mac_only_tests_skipped": 1,
+  "windows_ui_checks_passed": 9
+}

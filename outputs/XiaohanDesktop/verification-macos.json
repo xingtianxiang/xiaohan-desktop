@@ -1,0 +1,109 @@
+{
+  "repository": "https://github.com/xingtianxiang/xiaohan-desktop",
+  "run": "https://github.com/xingtianxiang/xiaohan-desktop/actions/runs/43402795962",
+  "commit": "a4c9613bb2928bdeca9f7506969c9a25bf94c7be",
+  "unit_tests_per_architecture": 52,
+  "unit_tests_passed_per_architecture": 52,
+  "previous_run": {
+    "id": 43402352296,
+    "result": "failed",
+    "cause": "Test expected unresolved macOS /var temporary path; production resolves /private/var.",
+    "fix": "Resolve expected executable parent consistently; all tests rerun."
+  },
+  "packages": {
+    "arm64": {
+      "build": {
+        "archive": "小汉-macOS-arm64.zip",
+        "sha256": "114aaefb025aa797429b3a8e412d2c3132262aff140a8053c9bd4240b9e50204",
+        "bytes": 36483767,
+        "architecture": "arm64",
+        "build_macos": "15.8.2",
+        "python": "3.11.9",
+        "PyInstaller": "6.22.0",
+        "Pillow": "10.4.0",
+        "tk": {
+          "tcl": "8.6.13",
+          "tk": "8.6.13"
+        },
+        "notarized": false,
+        "source_sha256": {
+          "trip_view.py": "bbbbbe8724cf215111989e40e067ab0c4851d094c35a819fc399e170f9330182",
+          "package_check.py": "70bb999b29653f2849eaa77b00341a2f2521a06b8d4fe1230a21f2140a512501",
+          "work_break.py": "a955c5fe4b547b1439956a623b61b3110fab0b99fdea8d32b8caf6ca2aea169e",
+          "mac_check.py": "d6ab41c01f330c7e05d9e78899d1fbecb0aad74a92a8ebfde9a36bac8fba065a",
+          "outdoor.py": "7b72e7b75a4f43ab52c64f038eeedc71b073b6829e7f795a11e2d3d7e8d3c1ad",
+          "desktop_platform.py": "3027de9987e1b9f9b00b677b67ea545bbfbae96ce8e7637953e28aa1231575a5",
+          "keyboard_activity.py": "9529bf591dd374b697274216695a510dbaf2d5eefd80483d47e64467747c0122",
+          "model.py": "bd86e330e062be2478d517a5d57892eeff6d3d0d075d09cb07c7087aa2b901c2",
+          "animation.py": "a77065786847c7820ccfc36b99c767c1340aef7b6ba91d3a24679fff81c7043a",
+          "app.py": "92bc9e9318646249e8e7575db152d2e163708cfc2db24ff63f67c320077ba0b2",
+          "more_panel.py": "0ed1d82ba63aae29822b2cfba6f4b8cdd6afd0c113f39aa278f13028d36a10b2",
+          "flame.py": "0a10572dd90da4c3ab839407693c91ffad5e5cde1a98bef0881119bc37dcd06a",
+          "throw_controls.py": "e193b57d927bb0f4a794a851f6f3fdca0690b49ddc3454e8ebb00666f9e1fe12",
+          "fetch_game.py": "2d54235015fde05e6afbd3230c97c109a4de476da19b839f008fbc8443d30459",
+          "mac_activity.py": "5c87e2107e83fadfc476a9a6690a1bf8c6b5f1e25b35414d184314e153cebf4c",
+          "smoke.py": "fe2d77e06373b29b73bc0fe5c169ee7ccb637f60cc22255909d4f979761c2a6d"
+        }
+      },
+      "verification": {
+        "launches": 2,
+        "checks_per_launch": 21,
+        "real_typing_verified": false,
+        "visual_human_review": false,
+        "default_save_outside_bundle": true
+      },
+      "artifact_sha256": "e8dc2b83269fd7317db138517387edf22b13dac0fb16bbdeda8d4f9d3635bec1",
+      "local_path": "C:\\Users\\txing\\Documents\\Codex\\2026-11-11\\pets-plugin-work-pets-openai-curated\\outputs\\小汉-macOS-arm64.zip",
+      "zip_crc_verified": true,
+      "executable_mode_verified": true,
+      "symlinks_preserved": 53
+    },
+    "x64": {
+      "build": {
+        "archive": "小汉-macOS-x86_64.zip",
+        "sha256": "565fbb6d3c0b330dec55f85597c8bfee44b25851d3efec8ebc8bc6023593c85d",
+        "bytes": 37413773,
+        "architecture": "x86_64",
+        "build_macos": "15.7.9",
+        "python": "3.11.9",
+        "PyInstaller": "6.22.0",
+        "Pillow": "10.4.0",
+        "tk": {
+          "tcl": "8.6.13",
+          "tk": "8.6.13"
+        },
+        "notarized": false,
+        "source_sha256": {
+          "trip_view.py": "bbbbbe8724cf215111989e40e067ab0c4851d094c35a819fc399e170f9330182",
+          "package_check.py": "70bb999b29653f2849eaa77b00341a2f2521a06b8d4fe1230a21f2140a512501",
+          "work_break.py": "a955c5fe4b547b1439956a623b61b3110fab0b99fdea8d32b8caf6ca2aea169e",
+          "mac_check.py": "d6ab41c01f330c7e05d9e78899d1fbecb0aad74a92a8ebfde9a36bac8fba065a",
+          "outdoor.py": "7b72e7b75a4f43ab52c64f038eeedc71b073b6829e7f795a11e2d3d7e8d3c1ad",
+          "desktop_platform.py": "3027de9987e1b9f9b00b677b67ea545bbfbae96ce8e7637953e28aa1231575a5",
+          "keyboard_activity.py": "9529bf591dd374b697274216695a510dbaf2d5eefd80483d47e64467747c0122",
+          "model.py": "bd86e330e062be2478d517a5d57892eeff6d3d0d075d09cb07c7087aa2b901c2",
+          "animation.py": "a77065786847c7820ccfc36b99c767c1340aef7b6ba91d3a24679fff81c7043a",
+          "app.py": "92bc9e9318646249e8e7575db152d2e163708cfc2db24ff63f67c320077ba0b2",
+          "more_panel.py": "0ed1d82ba63aae29822b2cfba6f4b8cdd6afd0c113f39aa278f13028d36a10b2",
+          "flame.py": "0a10572dd90da4c3ab839407693c91ffad5e5cde1a98bef0881119bc37dcd06a",
+          "throw_controls.py": "e193b57d927bb0f4a794a851f6f3fdca0690b49ddc3454e8ebb00666f9e1fe12",
+          "fetch_game.py": "2d54235015fde05e6afbd3230c97c109a4de476da19b839f008fbc8443d30459",
+          "mac_activity.py": "5c87e2107e83fadfc476a9a6690a1bf8c6b5f1e25b35414d184314e153cebf4c",
+          "smoke.py": "fe2d77e06373b29b73bc0fe5c169ee7ccb637f60cc22255909d4f979761c2a6d"
+        }
+      },
+      "verification": {
+        "launches": 2,
+        "checks_per_launch": 21,
+        "real_typing_verified": false,
+        "visual_human_review": false,
+        "default_save_outside_bundle": true
+      },
+      "artifact_sha256": "604ef1db5c9326b7dd7280921455ab31f02fc7463e288a711f64f5c518366406",
+      "local_path": "C:\\Users\\txing\\Documents\\Codex\\2026-11-11\\pets-plugin-work-pets-openai-curated\\outputs\\小汉-macOS-x86_64.zip",
+      "zip_crc_verified": true,
+      "executable_mode_verified": true,
+      "symlinks_preserved": 53
+    }
+  }
+}
