@@ -1,0 +1,83 @@
+{
+ "blue_adult": {
+  "left": 14.1,
+  "right": 162.9,
+  "front": [
+   0.1382,
+   209.15371
+  ],
+  "depth": 22.3
+ },
+ "blue_puppy": {
+  "left": 14.7,
+  "right": 191.3,
+  "front": [
+   0.00881,
+   223.2658
+  ],
+  "depth": 26.5
+ },
+ "blue_teen": {
+  "left": 14.6,
+  "right": 188.4,
+  "front": [
+   0.03325,
+   223.49919
+  ],
+  "depth": 26.1
+ },
+ "red_adult": {
+  "left": 13.1,
+  "right": 160.9,
+  "front": [
+   0.08035,
+   215.44192
+  ],
+  "depth": 22.2
+ },
+ "red_puppy": {
+  "left": 14.7,
+  "right": 191.3,
+  "front": [
+   0.01722,
+   225.04229
+  ],
+  "depth": 26.5
+ },
+ "red_teen": {
+  "left": 16.1,
+  "right": 163.9,
+  "front": [
+   0.05636,
+   217.94023
+  ],
+  "depth": 22.2
+ },
+ "yellow_adult": {
+  "left": 13.3,
+  "right": 173.7,
+  "front": [
+   0.02797,
+   224.05768
+  ],
+  "depth": 24.0
+ },
+ "yellow_puppy": {
+  "left": 14.7,
+  "right": 142.3,
+  "front": [
+   0.14526,
+   209.56734
+  ],
+  "depth": 19.2
+ },
+ "yellow_teen": {
+  "left": 14.7,
+  "right": 145.3,
+  "front": [
+   0.13914,
+   209.99298
+  ],
+  "depth": 19.6
+ }
+}

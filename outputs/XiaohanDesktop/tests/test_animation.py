@@ -25,6 +25,7 @@ class AgeAnimationTests(unittest.TestCase):
         self.app.outdoor = False
         self.app.walk_clock = 0.
         self.app.petting = Petting()
+        self.app.napping = False
 
     def test_all_age_outfit_frames_exist_and_fit(self):
         for name in required_assets(OUTFITS):
@@ -54,6 +55,15 @@ class AgeAnimationTests(unittest.TestCase):
             self.app.petting=Petting();self.app.petting.hold(100,101)
             self.assertEqual(self.app.pose(100.5),('blue_'+AGES[stage],False))
             self.assertIn(self.app.pose(103)[0],frame_names('blue',stage,'hungry'))
+
+    def test_napping_shows_sleep_frames_until_an_action_starts(self):
+        for stage in range(3):
+            self.app.state=PetState();self.app.state.stage=stage;self.app.state.values['food']=10
+            self.app.napping=True;self.app.action=None
+            self.assertIn(self.app.pose(100.1)[0],frame_names('blue',stage,'sleep'))
+            self.app.action='water'
+            self.assertIn(self.app.pose(100.1)[0],frame_names('blue',stage,'drink'))
+        self.app.napping=False
 
     def test_actions_route_to_distinct_age_art_not_scaled_adult(self):
         actions = {'feed':'eat', 'water':'drink', 'sleep':'sleep', 'walk':'walk', 'ball':'walk', 'toy':'play'}

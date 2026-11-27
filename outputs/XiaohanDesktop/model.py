@@ -28,6 +28,12 @@ SAVE_REPLACE_ATTEMPTS = 3
 SAVE_RETRY_SECONDS = .1
 # Length of the Jimeng stage clip (assets/dance_stage.webp at dance.FPS).
 DANCE_SECONDS = 14
+# Energy per hour: she tires slowly while busy, recovers while left in peace, and faster while
+# napping, which she does once the computer has had no input for NAP_AFTER_SECONDS.
+ENERGY_HOURLY = {'busy': -1, 'rest': 10, 'nap': 40}
+NAP_AFTER_SECONDS = 300
+# Arcade games end by their own rules, so their duration is unused; rewards follow the cooldown.
+MINI_GAMES = ('catch', 'shell', 'hurdle', 'memory')
 # Tunable first-release game balance; seconds are active companionship, not wall age.
 ACTIONS = {
     'feed': dict(label='喂一餐', duration=5, cooldown=30, pose='eat', effects={'food': 25, 'bond': 1, 'mood': 3}),
@@ -36,6 +42,10 @@ ACTIONS = {
     'toilet': dict(label='上厕所', duration=8, cooldown=0, pose='walk', effects={'mood': 2}),
     'pet': dict(label='摸摸头', duration=3, cooldown=15, pose='idle', effects={'mood': 8, 'bond': 1}),
     'toy': dict(label='拔玩具', duration=7, cooldown=30, pose='play', effects={'energy': -5, 'mood': 12, 'bond': 2, 'water': -3}),
+    'catch': dict(label='接零食', duration=0, cooldown=30, pose='play', effects={'energy': -4, 'mood': 10, 'bond': 2, 'food': 2, 'water': -2}),
+    'shell': dict(label='猜球在哪', duration=0, cooldown=30, pose='play', effects={'energy': -2, 'mood': 8, 'bond': 2}),
+    'hurdle': dict(label='跨栏敏捷赛', duration=0, cooldown=30, pose='play', effects={'energy': -6, 'mood': 12, 'bond': 2, 'water': -4}),
+    'memory': dict(label='爪印记忆', duration=0, cooldown=30, pose='play', effects={'energy': -2, 'mood': 8, 'bond': 2}),
     'ball': dict(label='扔球接回', duration=10, cooldown=0, pose='play', effects={'energy': -6, 'mood': 12, 'bond': 2, 'water': -4}),
     'walk': dict(label='一起散步', duration=15, cooldown=60, pose='idle', effects={'energy': -8, 'mood': 15, 'bond': 3, 'water': -5, 'food': -4}),
     'sleep': dict(label='睡一小觉', duration=20, cooldown=10, pose='sleep', effects={'energy': 25, 'mood': 3}),
@@ -67,17 +77,21 @@ class PetState:
         self.break_reminders = True
         self.update_checks = True
         self.mouse_follow = True
+        self.key_bubbles = True
+        self.best_scores = {}
         self.cooldowns = {}
         self.completed = 0
         self.created = time.time()
 
-    def tick(self, seconds, active):
+    def tick(self, seconds, active, rest='busy'):
+        """rest is 'busy' during play and walks, 'rest' when she is left in peace, 'nap' while she naps."""
         seconds = min(max(seconds, 0), 10)
         self.toilet_seconds=min(TOILET_FULL_SECONDS,self.toilet_seconds+seconds)
         if active:
             self.companion_seconds += seconds
-        for key, hourly in [('food', 3), ('water', 4), ('energy', 1), ('mood', .5)]:
+        for key, hourly in [('food', 3), ('water', 4), ('mood', .5)]:
             self.values[key] = max(0, self.values[key] - seconds * hourly / 3600)
+        self.values['energy'] = min(100, max(0, self.values['energy'] + seconds * ENERGY_HOURLY[rest] / 3600))
         self.promote()
 
     def promote(self):
@@ -144,13 +158,24 @@ class PetState:
             return '现在不渴，水碗已经备好啦'
         if action == 'toilet' and self.toilet_seconds<TOILET_MIN_INTERVAL:
             return '暂时还不需要上厕所，等一会儿吧'
-        if action in ('walk', 'ball', 'toy'):
-            urgent=self.urgent_needs()
-            if urgent:
-                return '先'+NEEDS[urgent[0]][1]+'，再一起玩吧'
+        if action in ('walk', 'ball', 'toy', *MINI_GAMES):
+            error=self.play_block()
+            if error:
+                return error
         if action == 'sleep' and self.values['energy'] >= 98:
             return '现在精神很好，陪她玩一会儿吧'
         return ''
+
+    def play_block(self):
+        urgent=self.urgent_needs()
+        return '先'+NEEDS[urgent[0]][1]+'，再一起玩吧' if urgent else ''
+
+    def record_score(self, game, score):
+        """Keeps the best score per game; True when this score beats the record."""
+        if score <= self.best_scores.get(game, 0):
+            return False
+        self.best_scores[game] = score
+        return True
 
     def finish(self, action, now, *, already_started=False):
         if not already_started:
@@ -225,6 +250,13 @@ class PetState:
         if type(data.get('mouse_follow', True)) is not bool:
             raise ValueError('看向鼠标设置不合法')
         state.mouse_follow = data.get('mouse_follow', True)
+        if type(data.get('key_bubbles', True)) is not bool:
+            raise ValueError('显示按键设置不合法')
+        state.key_bubbles = data.get('key_bubbles', True)
+        scores = data.get('best_scores', {})
+        if not isinstance(scores, dict) or any(key not in MINI_GAMES for key in scores):
+            raise ValueError('最高分记录不合法')
+        state.best_scores = {key: int(number(value, 0, 1e9)) for key, value in scores.items()}
         state.cooldowns = {key: number(value, 0, 1e12) for key, value in data['cooldowns'].items() if key in ACTIONS}
         state.completed = number(data['completed'], 0, 1e12)
         state.created = number(data['created'], 0, 1e12)

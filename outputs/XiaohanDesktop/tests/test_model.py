@@ -5,7 +5,8 @@ import stat
 import tempfile
 import threading
 import unittest
-from model import PetState, STAGES, TOILET_REMIND_SECONDS, TOILET_URGENT_SECONDS, TOILET_FULL_SECONDS
+from model import (ACTIONS, ENERGY_HOURLY, MINI_GAMES, PetState, STAGES, TOILET_REMIND_SECONDS, TOILET_URGENT_SECONDS,
+                   TOILET_FULL_SECONDS)
 
 
 @unittest.skipUnless(os.name=='nt','Windows replace semantics')
@@ -225,5 +226,55 @@ class CareTests(unittest.TestCase):
             data=json.loads(path.read_text(encoding='utf-8'));data['values']['bond']=float('nan')
             path.write_text(json.dumps(data),encoding='utf-8')
             with self.assertRaises(ValueError):PetState.load(path)
+
+
+
+class EnergyAndGameTests(unittest.TestCase):
+    def hour(self,state,rest):
+        for _ in range(360):state.tick(10,True,rest)
+
+    def test_energy_drains_while_busy_and_recovers_at_rest_and_faster_napping(self):
+        changes={}
+        for rest in ('busy','rest','nap'):
+            state=PetState();state.values['energy']=50
+            self.hour(state,rest)
+            changes[rest]=state.values['energy']-50
+        self.assertAlmostEqual(changes['busy'],ENERGY_HOURLY['busy'])
+        self.assertAlmostEqual(changes['rest'],ENERGY_HOURLY['rest'])
+        self.assertAlmostEqual(changes['nap'],ENERGY_HOURLY['nap'])
+        self.assertTrue(changes['busy']<0<changes['rest']<changes['nap'])
+        state=PetState();state.values['energy']=99
+        self.hour(state,'nap')
+        self.assertEqual(state.values['energy'],100)
+
+    def test_games_are_rewarded_once_per_cooldown_and_blocked_by_urgent_needs(self):
+        for game in MINI_GAMES:
+            state=PetState()
+            self.assertEqual(state.check(game,100),'')
+            before=dict(state.values)
+            self.assertEqual(state.finish(game,100,already_started=True),'')
+            self.assertGreater(state.values['mood'],before['mood'])
+            self.assertLess(state.values['energy'],before['energy'])
+            self.assertIn('秒后再来',state.check(game,110))
+            self.assertEqual(state.check(game,100+ACTIONS[game]['cooldown']),'')
+            state.values['energy']=5
+            self.assertIn('休息',state.play_block())
+            self.assertEqual(state.check(game,1e6),state.play_block())
+
+    def test_best_scores_only_rise_and_survive_a_reload(self):
+        state=PetState()
+        self.assertTrue(state.record_score('catch',12))
+        self.assertFalse(state.record_score('catch',9))
+        self.assertFalse(state.record_score('catch',12))
+        self.assertTrue(state.record_score('hurdle',40))
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'pet.json';state.save(path)
+            self.assertEqual(PetState.load(path).best_scores,{'catch':12,'hurdle':40})
+            data=json.loads(path.read_text(encoding='utf-8'))
+            del data['best_scores'];path.write_text(json.dumps(data),encoding='utf-8')
+            self.assertEqual(PetState.load(path).best_scores,{})
+            for bad in ({'chess':3},{'catch':-1},[]):
+                data['best_scores']=bad;path.write_text(json.dumps(data),encoding='utf-8')
+                with self.assertRaises(ValueError):PetState.load(path)
 
 if __name__=='__main__':unittest.main()

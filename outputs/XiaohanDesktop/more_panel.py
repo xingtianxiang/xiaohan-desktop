@@ -2,7 +2,8 @@
 import tkinter as tk
 
 from desktop_platform import UI_FONT, screen_bounds
-from model import ACTIONS, STAGES, NEED_LOW, NEED_CRITICAL
+from model import ACTIONS, ENERGY_HOURLY, MINI_GAMES, NAP_AFTER_SECONDS, STAGES, NEED_LOW, NEED_CRITICAL
+from game_view import UNITS
 from trip_view import CARE_LABELS
 from version import VERSION
 
@@ -12,7 +13,14 @@ MUTED = '#64766d'
 TEAL = '#2e796c'
 BUTTON = '#ecf1e8'
 TRACK = '#e5e9df'
-PAGE_TITLES = {'home': '小汉', 'growth': '成长', 'care': '照顾状态', 'settings': '设置'}
+PAGE_TITLES = {'home': '小汉', 'growth': '成长', 'care': '照顾状态', 'settings': '设置', 'games': '小游戏'}
+ENERGY_NOTES = {
+    'nap': f'她在打盹，体力恢复得快，每小时约 +{ENERGY_HOURLY["nap"]}。',
+    'rest': (f'体力恢复：安静待着每小时约 +{ENERGY_HOURLY["rest"]}\n'
+             f'离开电脑 {NAP_AFTER_SECONDS // 60} 分钟她会打盹，每小时约 +{ENERGY_HOURLY["nap"]}\n'
+             f'点“睡觉”最快，一次 +{ACTIONS["sleep"]["effects"]["energy"]}'),
+    'busy': '玩耍、散步会消耗体力，停下来后会慢慢恢复。',
+}
 
 
 def care_meter_color(value):
@@ -72,6 +80,7 @@ class MorePanel:
         self.build_growth(self.pages['growth'])
         self.build_care(self.pages['care'])
         self.build_settings(self.pages['settings'])
+        self.build_games(self.pages['games'])
         self.page = None
         self.feedback = ''
         self.show('home')
@@ -112,8 +121,10 @@ class MorePanel:
             actions.columnconfigure(column, weight=1, uniform='action')
             self.actions[key] = button
         dance=self.button(actions,ACTIONS['dance']['label'],lambda:self.perform('dance'))
-        dance.grid(row=2,column=0,columnspan=2,sticky='ew',pady=(0,6),ipady=2)
+        dance.grid(row=2,column=0,sticky='ew',padx=(0,6),pady=(0,6),ipady=2)
         self.actions['dance']=dance
+        games=self.button(actions,PAGE_TITLES['games']+' ›',lambda:self.show('games'))
+        games.grid(row=2,column=1,sticky='ew',pady=(0,6),ipady=2)
 
         self.status = tk.Frame(body, bg=PAPER)
         self.end = self.button(self.status, '结束互动', self.app.cancel_action)
@@ -196,6 +207,21 @@ class MorePanel:
         self.care_feedback = self.label(body, justify='left', wraplength=270)
         self.care_feedback.grid(row=4,column=0,columnspan=2,sticky='ew')
         self.care_feedback.grid_remove()
+        self.energy_note = self.label(body, justify='left', wraplength=270)
+        self.energy_note.configure(fg=MUTED)
+        self.energy_note.grid(row=5,column=0,columnspan=2,sticky='ew',pady=(2,0))
+
+    def build_games(self, body):
+        self.game_buttons = {}
+        for index,key in enumerate(('toy',*MINI_GAMES)):
+            row,column = divmod(index,2)
+            button = self.button(body, '', lambda k=key: self.perform(k), justify='left')
+            button.grid(row=row,column=column,sticky='ew',padx=(0,6) if column==0 else 0,pady=(0,6),ipady=2)
+            body.columnconfigure(column, weight=1, uniform='game')
+            self.game_buttons[key] = button
+        self.games_note = self.label(body, justify='left', wraplength=270)
+        self.games_note.configure(fg=MUTED)
+        self.games_note.grid(row=3,column=0,columnspan=2,sticky='ew',pady=(2,0))
 
     def start_update(self):
         self.app.start_update()
@@ -203,7 +229,8 @@ class MorePanel:
 
     def build_settings(self, body):
         self.switches = {}
-        switches = [('keyboard_enabled','跟着打字'),('flames','打字火光'),('mouse_follow','看向鼠标'),
+        switches = [('keyboard_enabled','跟着打字'),('flames','打字火光'),('key_bubbles','显示按下的键'),
+                    ('mouse_follow','看向鼠标'),
                     ('break_reminders','休息提醒 · 60 / 10 分钟')]
         if self.app.updates_supported:
             switches.append(('update_checks','自动检查更新'))
@@ -322,6 +349,15 @@ class MorePanel:
                 self.care_feedback.grid()
             else:
                 self.care_feedback.grid_remove()
+        elif self.page=='games':
+            for key,button in self.game_buttons.items():
+                best = state.best_scores.get(key,0)
+                detail = '7 秒踩节拍对拉' if key=='toy' else f'最高 {best} {UNITS[key]}' if best else '还没有记录'
+                button.configure(text=ACTIONS[key]['label']+'\n'+detail,
+                                 state='disabled' if busy or app.paused or app.outdoor else 'normal')
+            note = (self.feedback or ('回到桌面再玩小游戏吧' if app.outdoor else state.play_block())
+                    or '每局按得分记录最高分；有得分就领奖励，同一个游戏 30 秒领一次')
+            self.games_note.configure(text=note)
         elif self.page=='settings':
             for key,button in self.switches.items():
                 enabled = getattr(state,key)
@@ -342,6 +378,7 @@ class MorePanel:
             color = care_meter_color(value)
             bar.delete('all')
             bar.create_rectangle(0,0,bar.winfo_width()*value/100,6,fill=color,outline='')
+        self.energy_note.configure(text=ENERGY_NOTES[self.app.rest_state])
 
     def refresh_growth(self):
         state = self.app.state

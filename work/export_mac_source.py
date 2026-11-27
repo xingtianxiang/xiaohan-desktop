@@ -18,7 +18,7 @@ def main():
     for source in APP.glob('*.py'):shutil.copy2(source,DEST/'app'/source.name)
     for source in (APP/'tests').glob('test_*.py'):shutil.copy2(source,DEST/'app/tests'/source.name)
     for source in (APP/'assets').glob('*.png'):shutil.copy2(source,DEST/'app/assets'/source.name)
-    for name in ('fetch-anchors.json','dance_stage.webp','dance_stage.wav'):
+    for name in ('fetch-anchors.json','typing-keyboards.json','dance_stage.webp','dance_stage.wav'):
         shutil.copy2(APP/'assets'/name,DEST/'app/assets'/name)
     for name in ('build_mac.py','check_mac.py','requirements.txt','README.md','使用说明.txt'):
         shutil.copy2(ROOT/'work/macos'/name,DEST/name)

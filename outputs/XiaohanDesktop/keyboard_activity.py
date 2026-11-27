@@ -1,6 +1,11 @@
-"""Input activity: timestamp, count and decaying rate, never key contents."""
+"""Input activity: timestamp, count and decaying rate.
+
+Which key went down is kept only while capture_keys is on, for the keycap animation: the last
+KEY_MEMORY presses as (time, virtual-key code), in memory, never written anywhere.
+"""
 import ctypes as C
 from ctypes import wintypes as W
+from collections import deque
 import threading
 import time
 import os
@@ -8,6 +13,9 @@ import math
 import sys
 
 RATE_DECAY_SECONDS = .85
+KEY_MEMORY = 8
+# A key reported down again within this gap is the keyboard's auto-repeat, not a new press.
+REPEAT_GAP = .6
 
 class KeyboardActivity:
     def __init__(self):
@@ -19,6 +27,9 @@ class KeyboardActivity:
         self.count = 0
         self._speed_sample = (-1e10, 0.)
         self.stopped = threading.Event()
+        self.capture_keys = False
+        self.keys = deque(maxlen=KEY_MEMORY)
+        self._held = {}
 
     def record_activity(self, now, count=1):
         rate = self.speed(now) + count/RATE_DECAY_SECONDS
@@ -26,6 +37,16 @@ class KeyboardActivity:
         self._speed_sample = (now, rate)
         self.last_activity = now
         self.count += count
+
+    def key_event(self, vk, down, now):
+        if not down:
+            self._held.pop(vk, None)
+            return
+        self.record_activity(now)
+        repeat = now - self._held.get(vk, -1e9) < REPEAT_GAP
+        self._held[vk] = now
+        if not repeat and self.capture_keys:
+            self.keys.append((now, vk))
 
     def speed(self, now):
         sampled_at, rate = self._speed_sample
@@ -100,9 +121,8 @@ class KeyboardActivity:
                     if result == size.value and size.value >= C.sizeof(HEADER) + C.sizeof(KEYBOARD):
                         header = HEADER.from_buffer(buffer)
                         if header.dwType == 1:
-                            flags = KEYBOARD.from_buffer(buffer, C.sizeof(HEADER)).Flags
-                            if not flags & 1:
-                                self.record_activity(time.monotonic())
+                            key = KEYBOARD.from_buffer(buffer, C.sizeof(HEADER))
+                            self.key_event(key.VKey, not key.Flags & 1, time.monotonic())
             elif msg == 0x0010:
                 user.DestroyWindow(hwnd)
                 return 0

@@ -9,7 +9,7 @@ GAIT_COLUMNS = 8
 GAIT_TILE = 192
 FRAME_COUNTS = {
     'eat': (2, 2, 2), 'drink': (2, 2, 2), 'sleep': (2, 2, 2),
-    'play': (2, 2, 2), 'type': (4, 4, 6), 'walk': (4, 4, 6),
+    'play': (2, 2, 2), 'type': (4, 4, 4), 'walk': (4, 4, 6),
     'hungry': (2,2,2), 'thirsty': (2,2,2), 'tired': (2,2,2),
     'potty': (2,2,2),
 }

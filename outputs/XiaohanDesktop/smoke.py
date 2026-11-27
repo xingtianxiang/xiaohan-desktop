@@ -65,6 +65,8 @@ def schedule(app,out):
         record('wardrobe_saved',PetState.load(app.data_path).outfit=='red')
         screenshot('wardrobe')
         app.buttons['toy'].event_generate('<ButtonPress-1>',x=32,y=25)
+        record('games_icon_opens_game_list',app.more is not None and app.more.page=='games')
+        app.more.perform('toy')
         record('toy_icon_opens_interactive_round',app.tug is not None and not app.tug.started)
         record('costume_in_action',app.pose(time.monotonic())[0].startswith('red_puppy_play'))
         app.cancel_action();record('cancel_no_reward',app.state.completed==2)

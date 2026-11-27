@@ -9,9 +9,10 @@ import time
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk, ImageOps
-from model import PetState, ACTIONS, STAGES, OUTFITS, NEEDS, NEED_ACTIONS
+from model import PetState, ACTIONS, STAGES, OUTFITS, NEEDS, NEED_ACTIONS, MINI_GAMES, NAP_AFTER_SECONDS
 from keyboard_activity import KeyboardActivity, user_idle_seconds
 from animation import AGES, FETCH_POSES, fetch_asset, motion_frame, required_assets
+from typing_keys import KEYCAP_SECONDS, draw_typing_keys, vk_label
 from care_motion import bowl_frame, snack_frame, sleep_frame
 from outdoor import OutdoorRenderer
 from flame import TypingFlame
@@ -25,6 +26,8 @@ from tug_view import POSE_STEPS, TUG_SIZE, TUG_EXIT, TUG_RETRY, draw_tug, toy_ti
 from desktop_platform import IS_MAC, UI_FONT, TRANSPARENT, default_data_path, screen_bounds, MacInstanceLock
 from farewell import FarewellAnimation
 from dance import STOP_BUTTON, STAGE_SIZE, DanceVideo
+from minigames import GAME_SIZE, CatchGame, HurdleGame, MemoryGame, ShellGame
+from game_view import GameArt, catch_geometry, draw_game, hurdle_half_width
 import updater
 from version import VERSION
 from mouse_play import (ART, HEADS, PET_HOLD, PET_RELEASE, CircleGesture, Facing, HeadRig, PetDetector, Petting,
@@ -55,6 +58,10 @@ class DesktopPet:
             if name not in self.images: raise RuntimeError('缺少素材：'+name)
         for name in ('dance_stage.webp','dance_stage.wav'):
             if not (BASE/'assets'/name).is_file(): raise RuntimeError('缺少素材：'+name)
+        self.typing_boards=json.loads((BASE/'assets/typing-keyboards.json').read_text(encoding='utf-8'))
+        for outfit in OUTFITS:
+            for age in AGES:
+                if outfit+'_'+age not in self.typing_boards:raise RuntimeError('缺少键盘位置：'+outfit+'_'+age)
         self.fetch_anchors=json.loads((BASE/'assets/fetch-anchors.json').read_text(encoding='utf-8'))
         for outfit in OUTFITS:
             for stage in range(3):
@@ -67,10 +74,13 @@ class DesktopPet:
         self.tug=None; self.tug_frames={}
         self.dance=DanceVideo(BASE/'assets/dance_stage.webp',BASE/'assets/dance_stage.wav',keyed=os.name=='nt')
         self.stage_return=None
+        self.game=self.game_key=self.game_result=self.game_art=None
+        self.napping=False; self.nap_energy=0.; self.rest_state='rest'
         self.tug_space_down=False; self.tug_key_reset=None
         self.tug_origin=None
         self.walk_clock=0.;self.walk_resume=None;self.fetch_origin=walk_position(0.)
         self.keyboard=KeyboardActivity(); self.keyboard.start()
+        self.keycaps=[]; self.key_seen=0.; self.sync_key_capture()
         self.tk_images={}; self.action=None; self.action_started=0.; self.paused=False; self.closing=False
         self.pause_started=0.; self.hidden=False
         self.notice='鼠标移到我身上试试'; self.notice_until=time.monotonic()+6
@@ -155,6 +165,10 @@ class DesktopPet:
         for key,(left,top,right,bottom) in self.scene_controls.items():
             if left<=e.x<=right and top<=e.y<=bottom:
                 self.pressed_control=key;self.drag=None;return
+        if self.game is not None:
+            self.desktop.focus_force()
+            if not self.paused:self.game.press(e.x,e.y)
+            return
         if self.tug is not None or self.action=='dance':
             # Focus lets Esc reach the window; neither scene can be dragged.
             self.desktop.focus_force()
@@ -176,6 +190,9 @@ class DesktopPet:
             key=self.pressed_control;self.pressed_control=None
             box=self.scene_controls.get(key)
             if box and box[0]<=e.x<=box[2] and box[1]<=e.y<=box[3]:self.outdoor_action(key)
+            return
+        if self.game is not None:
+            self.game.release()
             return
         if self.tug is not None:
             return
@@ -200,10 +217,10 @@ class DesktopPet:
     def show_toolbar(self):
         self.cancel_hide()
         if (self.hidden or self.paused or self.more or self.outdoor or self.trip_picker or self.tug is not None
-                or self.action=='dance'): return
+                or self.action=='dance' or self.game is not None): return
         if self.toolbar and self.toolbar.winfo_exists(): return
         self.toolbar=self.floating(TOOLBAR_WIDTH,TOOLBAR_HEIGHT); self.buttons={}
-        actions=[('feed','喂食'),('water','喝水'),('toilet','上厕所'),('pet','摸摸'),('toy','拔玩具'),('outdoor','出游'),('wardrobe','换装'),('sleep','睡觉'),('more','更多')]
+        actions=[('feed','喂食'),('water','喝水'),('toilet','上厕所'),('pet','摸摸'),('toy','小游戏'),('outdoor','出游'),('wardrobe','换装'),('sleep','睡觉'),('more','更多')]
         for i,(key,title) in enumerate(actions):
             tile=tk.Canvas(self.toolbar,width=64,height=66,bg=PAPER,highlightthickness=0,cursor='hand2')
             tile.grid(row=i//TOOLBAR_COLUMNS,column=i%TOOLBAR_COLUMNS,padx=2,pady=2); self.draw_icon(tile,key)
@@ -355,6 +372,7 @@ class DesktopPet:
         if key=='wardrobe': self.open_wardrobe()
         elif key=='outdoor': self.scene_menu(event)
         elif key=='more': self.popup(event)
+        elif key=='toy': self.popup(event,page='games')
         else: self.start_action(key)
 
     def open_wardrobe(self):
@@ -390,6 +408,9 @@ class DesktopPet:
         elif key=='leave_tug':self.close_tug()
         elif key=='retry_tug':self.tug=TugRound(ACTIONS['toy']['duration'])
         elif key=='stop_dance':self.cancel_action()
+        elif key=='leave_game':self.close_game()
+        elif key=='start_game':self.game.start()
+        elif key=='retry_game':self.retry_game()
         elif key in NEED_ACTIONS.values():self.start_action(key)
         elif key=='walk':
             if self.action=='walk':self.cancel_action()
@@ -430,6 +451,7 @@ class DesktopPet:
     def hide_pet(self):
         if self.hidden:return
         self.end_dance()
+        if self.game is not None:self.close_game()
         x,y=self.root.winfo_x(),self.root.winfo_y()
         if self.state.window_position is None:
             self.state.window_position=(x,y)
@@ -468,8 +490,24 @@ class DesktopPet:
         if self.more:
             self.more.win.destroy();self.more=None
 
+    def sync_key_capture(self):
+        """Which keys go down is read only while keycaps are on and she follows typing."""
+        capture=self.state.key_bubbles and self.state.keyboard_enabled
+        self.keyboard.capture_keys=capture
+        if not capture:
+            self.keyboard.keys.clear();self.keycaps=[]
+
+    def take_keys(self,now):
+        for at,vk in list(self.keyboard.keys):
+            if at>self.key_seen:
+                self.key_seen=at
+                label=vk_label(vk)
+                if label:self.keycaps.append((at,label))
+        self.keycaps=[keycap for keycap in self.keycaps if now-keycap[0]<KEYCAP_SECONDS]
+
     def set_option(self,key,value):
         setattr(self.state,key,value)
+        if key in ('key_bubbles','keyboard_enabled'):self.sync_key_capture()
         if key=='break_reminders': self.work_break=WorkBreak()
         if key=='update_checks' and value: self.request_update_check()
         self.save(); self.say('已开启' if value else '已关闭')
@@ -587,6 +625,8 @@ class DesktopPet:
             if self.tug_key_reset is not None:
                 self.root.after_cancel(self.tug_key_reset)
             self.clear_tug_key()
+        if self.game is not None:
+            self.clear_tug_key()
         self.cancel_charge()
 
     def cancel_unfocused_gesture(self):
@@ -599,6 +639,7 @@ class DesktopPet:
         if self.more:self.close_more()
         elif self.trip_picker:self.close_trip_picker()
         elif self.tug is not None:self.close_tug()
+        elif self.game is not None:self.close_game()
         elif self.action=='dance':self.cancel_action()
         elif self.charge.started is not None:
             self.cancel_charge(); self.say('已取消蓄力')
@@ -642,6 +683,7 @@ class DesktopPet:
 
     def start_action(self,key):
         if key=='ball': return self.open_fetch()
+        if key in MINI_GAMES: return self.open_game(key)
         if self.paused: self.say('已暂停，请先继续陪伴'); return False
         care_while_walking=self.outdoor and self.action=='walk' and key in NEED_ACTIONS.values()
         if self.action and not care_while_walking:
@@ -658,7 +700,8 @@ class DesktopPet:
         if key=='dance':
             self.close_more()
             self.hide_tools()
-            self.open_stage()
+            self.open_stage(STAGE_SIZE)
+            self.dance.play()
         if self.outdoor and key in NEED_ACTIONS.values():self.close_more()
         self.say(ACTIONS[key]['label']+'中…',ACTIONS[key]['duration']+1)
         return True
@@ -667,31 +710,91 @@ class DesktopPet:
         if self.tug is not None:
             self.close_tug()
             return
+        if self.game is not None:
+            self.close_game()
+            return
         self.cancel_charge()
-        if self.action=='dance':self.close_stage()
+        if self.action=='dance':self.stop_dance()
         self.action=None
         self.resume_walk(self.pause_started if self.paused else time.monotonic())
         self.say('好啦，继续陪着你')
 
-    def open_stage(self):
-        """The window becomes the dance stage, bottom-centred where she stood, and the music starts."""
+    def open_stage(self,size):
+        """The window grows into a scene of this size, bottom-centred where she stood."""
         x,y=self.root.winfo_x(),self.root.winfo_y()
         self.stage_return=(x,y,self.width,self.height)
-        self.width,self.height=STAGE_SIZE
+        self.width,self.height=size
         self.resize_window((x+(self.stage_return[2]-self.width)//2,y+self.stage_return[3]-self.height))
-        self.dance.play()
 
     def close_stage(self):
-        self.dance.stop()
         x,y,self.width,self.height=self.stage_return
         self.stage_return=None
         self.resize_window((x,y))
 
+    def stop_dance(self):
+        self.dance.stop()
+        self.close_stage()
+
     def end_dance(self):
         """Pausing, hiding or quitting cuts a dance short without a message."""
         if self.action=='dance':
-            self.close_stage()
+            self.stop_dance()
             self.action=None
+
+    def open_game(self,key):
+        if self.paused: self.say('已暂停，请先继续陪伴'); return False
+        if self.action or self.tug is not None: self.say('等这次互动结束再来吧'); return False
+        if self.outdoor or self.fetch_mode: self.say('回到桌面再玩小游戏吧'); return False
+        error=self.state.play_block()
+        if error: self.say(error); return False
+        self.close_more()
+        self.hide_tools()
+        self.drag=self.pressed_control=None
+        if self.game_art is None:
+            self.game_art=GameArt(self.root,self.images,self.outdoor_renderer)
+        now=time.monotonic()
+        self.game_key,self.game,self.game_result=key,self.new_game(key),None
+        self.action,self.action_started=key,now
+        self.open_stage(GAME_SIZE)
+        self.render(now)
+        self.desktop.focus_force()
+        return True
+
+    def new_game(self,key):
+        stage=self.state.stage
+        if key=='catch':return CatchGame(*catch_geometry(stage))
+        if key=='hurdle':return HurdleGame(hurdle_half_width(stage))
+        return ShellGame() if key=='shell' else MemoryGame()
+
+    def retry_game(self):
+        error=self.state.play_block()
+        if error:
+            self.close_game();self.say(error);return
+        self.game,self.game_result=self.new_game(self.game_key),None
+
+    def score_game(self):
+        key,score=self.game_key,self.game.score
+        record=score>0 and self.state.record_score(key,score)
+        reward='这局没有得分，再试一次吧'
+        if score>0:
+            error=self.state.check(key,time.time())
+            if error:
+                reward='这局不加奖励：'+error
+            else:
+                self.state.finish(key,time.time(),already_started=True)
+                names={'mood':'心情','bond':'亲密','energy':'体力','food':'饱腹','water':'水分'}
+                reward=' · '.join(f'{names[k]} {v:+g}' for k,v in ACTIONS[key]['effects'].items())
+        self.game_result=dict(score=score,record=record,reward=reward)
+        self.save()
+
+    def close_game(self):
+        self.clear_tug_key()
+        self.game=self.game_key=self.game_result=None
+        self.action=None
+        self.scene_controls={}
+        self.pressed_control=None
+        self.close_stage()
+        self.say('下次再一起玩')
 
     def resume_walk(self,now):
         if self.walk_resume is not None:
@@ -712,7 +815,7 @@ class DesktopPet:
         self.desktop.focus_force()
 
     def tug_key_down(self,event=None):
-        if self.tug is None:
+        if self.tug is None and self.game is None:
             return
         if self.tug_key_reset is not None:
             # Some platforms emit an immediate release/press pair for repeat.
@@ -721,12 +824,15 @@ class DesktopPet:
             return 'break'
         if not self.paused and not self.tug_space_down:
             self.tug_space_down=True
-            if self.tug.started or not self.state.check('toy',time.time()):
+            if self.game is not None:
+                if self.game.over:self.retry_game()
+                else:self.game.press()
+            elif self.tug.started or not self.state.check('toy',time.time()):
                 self.tug.strike(time.monotonic())
         return 'break'
 
     def tug_key_up(self,event=None):
-        if self.tug is None:
+        if self.tug is None and self.game is None:
             return
         if self.tug_space_down and self.tug_key_reset is None:
             self.tug_key_reset=self.root.after_idle(self.clear_tug_key)
@@ -735,6 +841,7 @@ class DesktopPet:
     def clear_tug_key(self):
         self.tug_space_down=False
         self.tug_key_reset=None
+        if self.game is not None:self.game.release()
 
     def close_tug(self):
         completed=self.tug.result in ('player','dog','tie')
@@ -778,6 +885,8 @@ class DesktopPet:
             if name=='shy': return outfit+'_shy',False
         elif self.petting.active(now):
             return outfit+'_'+AGES[stage],False
+        elif self.napping:
+            return motion_frame(outfit,stage,'sleep',now),False
         elif self.state.low_needs():
             need=self.state.low_needs()[0]
             return motion_frame(outfit,stage,NEEDS[need][0],0 if self.paused else now),False
@@ -794,6 +903,12 @@ class DesktopPet:
         self.scene_controls={}
         if self.tug is not None:
             self.render_tug()
+            return
+        if self.game is not None:
+            self.scene_controls=draw_game(self.desktop,self.game_art,self.game_key,self.game,outfit=self.state.outfit,
+                                          stage=self.state.stage,paused=self.paused,
+                                          best=self.state.best_scores.get(self.game_key,0),result=self.game_result)
+            self.hit=None
             return
         if self.action=='dance':
             self.render_dance(now-self.action_started)
@@ -868,6 +983,9 @@ class DesktopPet:
                 sprite=self.care_photo
             c.create_image(x,y+bob-lift,image=sprite,anchor='s',tags='pet_sprite')
             self.hit=(x-size/2,y+bob-lift-size,size,name,flip)
+            if typing and self.keycaps:
+                board=self.typing_boards[self.state.outfit+'_'+AGES[self.state.stage]]
+                draw_typing_keys(c,self.keycaps,now,x-size/2,y+bob-lift-size,size,board,UI_FONT,INK)
         if self.action=='toilet' and 1.2<elapsed<6.8:
             screen_size=round(base_size*(.70,.88,1.)[self.state.stage])
             self.draw_toilet_screen(c,x,y,screen_size,elapsed)
@@ -949,16 +1067,27 @@ class DesktopPet:
             self.walk_clock+=min(max(dt,0),.25)
         idle=user_idle_seconds()
         self.work_break.update(now,idle,self.state.break_reminders and not self.paused)
-        if not self.paused: self.state.tick(dt,idle is not None and idle<300)
+        busy=(self.tug is not None or self.game is not None or self.fetch_mode
+              or self.action not in (None,'pet','sleep'))
+        napping=(not busy and not self.outdoor and not self.paused
+                 and idle is not None and idle>=NAP_AFTER_SECONDS)
+        if napping!=self.napping:self.change_nap(napping)
+        self.rest_state='nap' if napping else 'busy' if busy else 'rest'
+        if not self.paused: self.state.tick(dt,idle is not None and idle<300,self.rest_state)
         if self.tug is not None:
             if not self.paused and self.tug.advance(now):
                 self.stop_gesture()
                 if self.tug.result!='idle':
                     self.state.finish('toy',time.time(),already_started=True)
                     self.save()
+        elif self.game is not None:
+            if not self.paused:
+                px,py=self.pointer()
+                self.game.advance(min(dt,.05),(px-self.root.winfo_rootx(),py-self.root.winfo_rooty()))
+                if self.game.over and self.game_result is None:self.score_game()
         elif not self.paused and self.action and now-self.action_started>=ACTIONS[self.action]['duration']:
             key=self.action; self.action=None
-            if key=='dance':self.close_stage()
+            if key=='dance':self.stop_dance()
             self.state.finish(key,time.time(),already_started=True)
             self.say('她收起耳朵了，摸摸她吧' if key=='tap' else ACTIONS[key]['label']+'完成啦')
             if key=='ball':
@@ -975,6 +1104,7 @@ class DesktopPet:
         self.poll_updates()
         if self.closing: return
         self.follow_pointer(now)
+        self.take_keys(now)
         if not self.hidden:
             self.render(now)
         if (self.more or self.status_strip) and now-self.last_panel_refresh>.25:
@@ -982,11 +1112,20 @@ class DesktopPet:
             if self.status_strip:self.status_strip.refresh(self.state)
             self.last_panel_refresh=now
         if now-self.last_save>30: self.save(); self.last_save=now
-        animated=(self.tug is not None or self.flame.level or self.action in ('ball','snack','sleep','feed','water','dance','pet')
+        animated=(self.tug is not None or self.game is not None or self.flame.level or self.keycaps or self.action in ('ball','snack','sleep','feed','water','dance','pet')
                   or self.charge.started is not None or self.facing.animating(now) or self.petting.active(now))
         interval = 180 if self.paused or self.hidden else 33 if animated else 90
         remaining = interval - round((time.monotonic()-now)*1000)
         self.root.after(max(1,remaining),self.tick)
+
+    def change_nap(self,napping):
+        """She naps while the computer sits untouched and says how much energy it brought back."""
+        if napping:
+            self.nap_energy=self.state.values['energy']
+        else:
+            gained=self.state.values['energy']-self.nap_energy
+            if gained>=1:self.say(f'睡醒啦，体力恢复了 {gained:.0f}',5)
+        self.napping=napping
 
     def begin_close(self):
         if self.closing:
@@ -997,6 +1136,7 @@ class DesktopPet:
             return False
         self.closing=True
         self.end_dance()
+        if self.game is not None:self.close_game()
         self.stop_gesture()
         self.close_more()
         self.hide_tools()
